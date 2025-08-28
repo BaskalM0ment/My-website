@@ -1,221 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Page</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Page</title>
+<style>
+* {
+box-sizing: border-box;
+}
+body {
+margin: 0;
+background-color: #000;
+color: #fff;
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+padding: 0 20px;
+overflow: hidden;
+}
+nav {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100%;
+}
+.dropdown {
+position: relative;
+width: max-content;
+margin: 10px 0;
+}
+.dropbtn {
+background: transparent;
+border: none;
+color: white;
+font-size: 36px;
+cursor: pointer;
+padding: 10px 20px;
+text-align: center;
+width: 280px;
+font-weight: 600;
+transition: color 0.3s ease;
+}
+.dropbtn:hover {
+color: #0ff;
+}
+.dropdown-content {
+display: none;
+position: absolute;
+top: 0;
+padding: 15px;
+white-space: normal;
+font-size: 18px;
+color: white;
+min-width: 220px;
+max-width: 280px;
+z-index: 999;
+}
+.dropdown-left {
+right: 100%;
+}
+.dropdown-right {
+left: 100%;
+}
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+display: block;
+}
+.dropdown-content ul {
+padding: 0;
+margin: 0;
+list-style: none;
+}
+.dropdown-content ul li {
+margin-bottom: 10px;
+}
+.dropdown-content a {
+color: white;
+text-decoration: none;
+font-weight: 600;
+}
+.dropdown-content a:hover {
+text-decoration: underline;
+}
 
-    body {
-      margin: 0;
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      padding: 0 20px;
-    }
+/* 🔒 Intro overlay */
+#intro {
+position: fixed;
+inset: 0;
+background: black;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+text-align: center;
+padding: 20px;
+}
+#intro button {
+all: unset;
+font-size: 32px;
+cursor: pointer;
+text-decoration: underline;
+}
+#intro button:hover {
+color: #0ff;
+}
 
-    nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 120px;
-      position: relative;
-    }
-
-    .dropdown {
-      position: relative;
-      width: max-content;
-    }
-
-    .dropbtn {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 48px;
-      cursor: pointer;
-      padding: 15px 30px;
-      text-align: center;
-      width: 300px;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    .dropbtn:hover {
-      color: #0ff;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 0;
-      padding: 20px;
-      white-space: normal;
-      font-size: 20px;
-      color: white;
-      min-width: 250px;
-      max-width: 300px;
-      z-index: 999;
-    }
-
-    .dropdown-left {
-      right: 100%;
-    }
-
-    .dropdown-right {
-      left: 100%;
-    }
-
-    .dropdown:hover .dropdown-content,
-    .dropdown-content:hover {
-      display: block;
-    }
-
-    .dropdown-content ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    .dropdown-content ul li {
-      margin-bottom: 12px;
-    }
-
-    .dropdown-content a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .dropdown-content a:hover {
-      text-decoration: underline;
-    }
-
-    #intro {
-      position: fixed;
-      inset: 0;
-      background: black;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    #intro button {
-      all: unset;
-      font-size: 32px;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    #intro button:hover {
-      color: #0ff;
-    }
-  </style>
+/* ✅ Responsive scaling */
+@media (max-height: 900px) {
+.dropbtn { font-size: 28px; width: 220px; }
+.dropdown-content { font-size: 16px; max-width: 240px; }
+#intro button { font-size: 26px; }
+}
+@media (max-height: 700px) {
+.dropbtn { font-size: 22px; width: 200px; padding: 8px 15px; }
+.dropdown { margin: 6px 0; }
+.dropdown-content { font-size: 14px; max-width: 220px; }
+#intro button { font-size: 20px; }
+}
+@media (max-height: 550px) {
+.dropbtn { font-size: 18px; width: 180px; padding: 6px 10px; }
+.dropdown { margin: 4px 0; }
+.dropdown-content { font-size: 12px; max-width: 200px; }
+#intro button { font-size: 16px; }
+}
+</style>
 </head>
 <body>
+<!-- 🔊 Hover Sound -->
+<audio id="hoverSound" src="tunetank.com_menu-interface-selection.wav" preload="auto"></audio>
 
-  <!-- 🔊 Hover Sound -->
-  <audio id="hoverSound" src="tunetank.com_menu-interface-selection.wav" preload="auto"></audio>
+<!-- Intro Screen -->
+<div id="intro">
+<button onclick="startSite()">Enter Site</button>
+</div>
 
-  <!-- Intro Screen -->
-  <div id="intro">
-    <button onclick="startSite()">Enter Site</button>
-  </div>
+<nav>
+<!-- My Gear -->
+<div class="dropdown">
+<button class="dropbtn">My Gear</button>
+<div class="dropdown-content dropdown-left">
+<ul>
+<li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
+<li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
+<li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
+<li><strong>Headset:</strong> Logitech G Pro Wireless</li>
+<li><strong>GPU:</strong> RTX 4070 Ti Super</li>
+<li><strong>CPU:</strong> Intel i7-14700F</li>
+<li><strong>RAM:</strong> 32GB DDR4</li>
+</ul>
+</div>
+</div>
 
-  <nav>
-    <!-- My Gear -->
-    <div class="dropdown">
-      <button class="dropbtn">My Gear</button>
-      <div class="dropdown-content dropdown-left">
-        <ul>
-          <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
-          <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
-          <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
-          <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
-          <li><strong>GPU:</strong> RTX 4070 Ti Super</li>
-          <li><strong>CPU:</strong> Intel i7-14700F</li>
-          <li><strong>RAM:</strong> 32GB DDR4</li>
-        </ul>
-      </div>
-    </div>
+<!-- About Me -->
+<div class="dropdown">
+<button class="dropbtn">About Me</button>
+<div class="dropdown-content dropdown-right">
+<p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2, Grand Theft Auto 5, and NBA 2K25. There is nothing else I can say.</p>
+</div>
+</div>
 
-    <!-- About Me -->
-    <div class="dropdown">
-      <button class="dropbtn">About Me</button>
-      <div class="dropdown-content dropdown-right">
-        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2, Grand Theft Auto 5, and NBA 2K25. There is nothing else I can say.</p>
-      </div>
-    </div>
+<!-- My Socials -->
+<div class="dropdown">
+<button class="dropbtn">My Socials</button>
+<div class="dropdown-content dropdown-left">
+<ul>
+<li><a href="https://x.com/baskalm0ment" target="_blank" rel="noopener noreferrer">X</a></li>
+<li><a href="https://www.twitch.tv/baskalm0ment" target="_blank" rel="noopener noreferrer">Twitch</a></li>
+<li><a href="https://github.com/BaskalM0ment" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+<li><a href="https://www.instagram.com/baskalm0ment/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+<li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+<li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+<li><a href="https://discord.com/users/900420740732551188" target="_blank" rel="noopener noreferrer">Discord</a></li>
+<li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank" rel="noopener noreferrer">Steam</a></li>
+<li><a href="https://vk.com/id891960345" target="_blank" rel="noopener noreferrer">Vk</a></li>
+</ul>
+</div>
+</div>
 
-    <!-- My Socials -->
-    <div class="dropdown">
-      <button class="dropbtn">My Socials</button>
-      <div class="dropdown-content dropdown-left">
-        <ul>
-          <li><a href="https://x.com/baskalm0ment" target="_blank" rel="noopener noreferrer">X</a></li>
-          <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank" rel="noopener noreferrer">Twitch</a></li>
-          <li><a href="https://github.com/BaskalM0ment" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-          <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-          <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-          <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-          <li><a href="https://discord.com/users/900420740732551188" target="_blank" rel="noopener noreferrer">Discord</a></li>
-          <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank" rel="noopener noreferrer">Steam</a></li>
-          <li><a href="https://vk.com/id891960345" target="_blank" rel="noopener noreferrer">Vk</a></li>
-        </ul>
-      </div>
-    </div>
+<!-- CS2 Config -->
+<div class="dropdown">
+<button class="dropbtn" onclick="window.location.href='https://www.dropbox.com/scl/fi/2en6utm1u8e36se6ze9z4/baskalmoment.zip?rlkey=wuwhh5u7lc3y1t5ngr3329w0r&st=ccr4sl0q&dl=1'">
+My CS2 Config
+</button>
+</div>
 
-    <!-- CS2 Config -->
-    <div class="dropdown">
-      <button class="dropbtn" onclick="window.location.href='https://www.dropbox.com/scl/fi/2en6utm1u8e36se6ze9z4/baskalmoment.zip?rlkey=wuwhh5u7lc3y1t5ngr3329w0r&st=ccr4sl0q&dl=1'">
-        My CS2 Config
-      </button>
-    </div>
+<!-- My Other Websites -->
+<div class="dropdown">
+<button class="dropbtn">My Other Websites</button>
+<div class="dropdown-content dropdown-right">
+<ul>
+<li><a href="https://fakecmd.netlify.app/" target="_blank" rel="noopener noreferrer">Fake cmd</a></li>
+<li><a href="https://ipgenerator.netlify.app/" target="_blank" rel="noopener noreferrer">IP generator</a></li>
+<li><a href="https://hackercalculator.netlify.app/" target="_blank" rel="noopener noreferrer">Hacker ahh calculator</a></li>
+<li><a href="https://clickspeedtests.netlify.app/" target="_blank" rel="noopener noreferrer">Click speed test</a></li>
+<li><a href="https://clickspeedtests.netlify.app/" target="_blank" rel="noopener noreferrer">Reaction speed test</a></li>
+</ul>
+</div>
+</div>
+</nav>
 
-    <!-- My Other Websites -->
-    <div class="dropdown">
-      <button class="dropbtn">My Other Websites</button>
-      <div class="dropdown-content dropdown-right">
-        <ul>
-          <li><a href="https://fakecmd.netlify.app/" target="_blank" rel="noopener noreferrer">Fake cmd</a></li>
-          <li><a href="https://ipgenerator.netlify.app/" target="_blank" rel="noopener noreferrer">IP generator</a></li>
-          <li><a href="https://hackercalculator.netlify.app/" target="_blank" rel="noopener noreferrer">Hacker ahh calculator</a></li>
-          <li><a href="https://clickspeedtests.netlify.app/" target="_blank" rel="noopener noreferrer">Click speed test</a></li>
-          <li><a href="https://clickspeedtests.netlify.app/" target="_blank" rel="noopener noreferrer">Reaction speed test</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- 🎵 JS Hover Sound Logic -->
-  <script>
-    let hoverEnabled = false;
-
-    function startSite() {
-      document.getElementById("intro").style.display = "none";
-      hoverEnabled = true;
-    }
-
-    const hoverSound = document.getElementById("hoverSound");
-
-    document.querySelectorAll(".dropbtn").forEach(btn => {
-      btn.addEventListener("mouseenter", () => {
-        if (hoverEnabled) {
-          hoverSound.currentTime = 0;
-          hoverSound.play();
-        }
-      });
-    });
-  </script>
-
+<!-- 🎵 JS Hover Sound Logic -->
+<script>
+let hoverEnabled = false;
+function startSite() {
+document.getElementById("intro").style.display = "none";
+hoverEnabled = true;
+}
+const hoverSound = document.getElementById("hoverSound");
+document.querySelectorAll(".dropbtn").forEach(btn => {
+btn.addEventListener("mouseenter", () => {
+if (hoverEnabled) {
+hoverSound.currentTime = 0;
+hoverSound.play();
+}
+});
+});
+</script>
 </body>
 </html>
-
