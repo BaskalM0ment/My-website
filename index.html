@@ -13,80 +13,91 @@
       background-color: #000;
       color: #fff;
       font-family: Arial, sans-serif;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      padding: 0 20px;
       overflow: hidden;
     }
+
     nav {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 80px; /* even space between buttons */
       height: 100%;
     }
+
     .dropdown {
       position: relative;
       width: max-content;
-      margin: 10px 0;
     }
+
     .dropbtn {
       background: transparent;
       border: none;
       color: white;
-      font-size: 36px;
+      font-size: 48px;
       cursor: pointer;
-      padding: 10px 20px;
+      padding: 15px 30px;
       text-align: center;
-      width: 280px;
+      width: 300px;
       font-weight: 600;
       transition: color 0.3s ease;
     }
+
     .dropbtn:hover {
       color: #0ff;
     }
+
     .dropdown-content {
       display: none;
       position: absolute;
       top: 0;
-      padding: 15px;
+      padding: 20px;
       white-space: normal;
-      font-size: 18px;
+      font-size: 20px;
       color: white;
-      min-width: 220px;
-      max-width: 280px;
+      min-width: 250px;
+      max-width: 300px;
       z-index: 999;
     }
+
     .dropdown-left {
       right: 100%;
     }
+
     .dropdown-right {
       left: 100%;
     }
+
     .dropdown:hover .dropdown-content,
     .dropdown-content:hover {
       display: block;
     }
+
     .dropdown-content ul {
       padding: 0;
       margin: 0;
       list-style: none;
     }
+
     .dropdown-content ul li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
+
     .dropdown-content a {
       color: white;
       text-decoration: none;
       font-weight: 600;
     }
+
     .dropdown-content a:hover {
       text-decoration: underline;
     }
 
-    /* 🔒 Intro overlay */
+    /* Intro overlay */
     #intro {
       position: fixed;
       inset: 0;
@@ -96,36 +107,17 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      text-align: center;
-      padding: 20px;
     }
+
     #intro button {
       all: unset;
       font-size: 32px;
       cursor: pointer;
       text-decoration: underline;
     }
+
     #intro button:hover {
       color: #0ff;
-    }
-
-    /* ✅ Responsive scaling */
-    @media (max-height: 900px) {
-      .dropbtn { font-size: 28px; width: 220px; }
-      .dropdown-content { font-size: 16px; max-width: 240px; }
-      #intro button { font-size: 26px; }
-    }
-    @media (max-height: 700px) {
-      .dropbtn { font-size: 22px; width: 200px; padding: 8px 15px; }
-      .dropdown { margin: 6px 0; }
-      .dropdown-content { font-size: 14px; max-width: 220px; }
-      #intro button { font-size: 20px; }
-    }
-    @media (max-height: 550px) {
-      .dropbtn { font-size: 18px; width: 180px; padding: 6px 10px; }
-      .dropdown { margin: 4px 0; }
-      .dropdown-content { font-size: 12px; max-width: 200px; }
-      #intro button { font-size: 16px; }
     }
   </style>
 </head>
@@ -139,7 +131,7 @@
   </div>
 
   <nav>
-    <!-- My Gear -->
+    <!-- Above Middle -->
     <div class="dropdown">
       <button class="dropbtn">My Gear</button>
       <div class="dropdown-content dropdown-left">
@@ -155,15 +147,15 @@
       </div>
     </div>
 
-    <!-- About Me -->
+    <!-- Middle -->
     <div class="dropdown">
       <button class="dropbtn">About Me</button>
       <div class="dropdown-content dropdown-right">
-        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2, Grand Theft Auto 5, and NBA 2K25. There is nothing else I can say.</p>
+        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2 and Grand Theft Auto 5. There is nothing else I can say.</p>
       </div>
     </div>
 
-    <!-- My Socials -->
+    <!-- Below Middle -->
     <div class="dropdown">
       <button class="dropbtn">My Socials</button>
       <div class="dropdown-content dropdown-left">
