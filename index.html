@@ -18,6 +18,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      flex-direction: column; /* allow vertical stacking */
     }
 
     nav {
@@ -26,7 +27,7 @@
       align-items: center;
       justify-content: center;
       gap: 80px; /* even space between buttons */
-      height: 100%;
+      flex: 1; /* take available vertical space */
     }
 
     .dropdown {
@@ -119,6 +120,13 @@
     #intro button:hover {
       color: #0ff;
     }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 16px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -151,7 +159,7 @@
     <div class="dropdown">
       <button class="dropbtn">About Me</button>
       <div class="dropdown-content dropdown-right">
-        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2 and Grand Theft Auto 5. There is nothing else I can say.</p>
+        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2, Grand Theft Auto 5 and There is nothing else I can say.</p>
       </div>
     </div>
 
@@ -173,6 +181,10 @@
       </div>
     </div>
   </nav>
+
+  <footer>
+    &copy; 2025 Baskal Moment. All rights reserved.
+  </footer>
 
   <!-- 🎵 JS Hover Sound Logic -->
   <script>
