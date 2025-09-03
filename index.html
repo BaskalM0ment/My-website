@@ -18,7 +18,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      flex-direction: column; /* allow vertical stacking */
+      flex-direction: column;
     }
 
     nav {
@@ -26,8 +26,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 80px; /* even space between buttons */
-      flex: 1; /* take available vertical space */
+      gap: 80px;
+      flex: 1;
     }
 
     .dropdown {
@@ -98,7 +98,6 @@
       text-decoration: underline;
     }
 
-    /* Intro overlay */
     #intro {
       position: fixed;
       inset: 0;
@@ -124,22 +123,19 @@
     footer {
       text-align: center;
       padding: 10px;
-      font-size: 16px;
-      color: #666;
+      font-size: 20px; /* bigger */
+      color: white; /* changed from grey to white */
     }
   </style>
 </head>
 <body>
-  <!-- 🔊 Hover Sound -->
   <audio id="hoverSound" src="tunetank.com_menu-interface-selection.wav" preload="auto"></audio>
 
-  <!-- Intro Screen -->
   <div id="intro">
     <button onclick="startSite()">Enter Site</button>
   </div>
 
   <nav>
-    <!-- Above Middle -->
     <div class="dropdown">
       <button class="dropbtn">My Gear</button>
       <div class="dropdown-content dropdown-left">
@@ -155,15 +151,13 @@
       </div>
     </div>
 
-    <!-- Middle -->
     <div class="dropdown">
       <button class="dropbtn">About Me</button>
       <div class="dropdown-content dropdown-right">
-        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2, Grand Theft Auto 5 and There is nothing else I can say.</p>
+        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2 and Grand Theft Auto 5. There is nothing else I can say.</p>
       </div>
     </div>
 
-    <!-- Below Middle -->
     <div class="dropdown">
       <button class="dropbtn">My Socials</button>
       <div class="dropdown-content dropdown-left">
@@ -186,7 +180,6 @@
     &copy; 2025 Baskal Moment. All rights reserved.
   </footer>
 
-  <!-- 🎵 JS Hover Sound Logic -->
   <script>
     let hoverEnabled = false;
     function startSite() {
