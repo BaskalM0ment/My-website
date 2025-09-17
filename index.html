@@ -25,7 +25,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      gap: 120px;
+      gap: 40px; /* 🔹 smaller gap between buttons */
       flex: 1;
     }
 
@@ -38,11 +38,11 @@
       background: transparent;
       border: none;
       color: white;
-      font-size: 48px;
+      font-size: 40px;
       cursor: pointer;
       padding: 15px 30px;
       text-align: center;
-      width: 300px;
+      width: 250px;
       font-weight: 600;
       transition: color 0.3s ease;
     }
@@ -54,26 +54,21 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      top: 0;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%); /* 🔹 Center under the button */
+      margin-top: 10px;
       padding: 20px;
       white-space: normal;
-      font-size: 20px;
+      font-size: 18px;
       color: white;
       min-width: 200px;
-      max-width: 300px;
+      max-width: 90vw; /* 🔹 Always fits screen width */
       z-index: 999;
       word-wrap: break-word;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       border: 1px solid #0ff;
       border-radius: 8px;
-    }
-
-    .dropdown-left {
-      right: 100%;
-    }
-
-    .dropdown-right {
-      left: 100%;
     }
 
     .dropdown:hover .dropdown-content,
@@ -126,7 +121,8 @@
     footer {
       text-align: center;
       padding: 10px;
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: bold;
       color: white;
       position: fixed;
       bottom: 0;
@@ -139,20 +135,19 @@
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
-        gap: 60px;
+        gap: 40px;
       }
       .dropbtn {
         font-size: 28px;
         width: 220px;
       }
       .dropdown-content {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        margin-top: 10px;
+        position: relative;
+        left: auto;
+        transform: none;
         max-width: 95vw;
         width: auto;
+        margin-top: 10px;
         text-align: center;
       }
     }
@@ -169,7 +164,7 @@
     <!-- My Gear -->
     <div class="dropdown">
       <button class="dropbtn">My Gear</button>
-      <div class="dropdown-content dropdown-left">
+      <div class="dropdown-content">
         <ul>
           <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
           <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
@@ -185,7 +180,7 @@
     <!-- My Socials -->
     <div class="dropdown">
       <button class="dropbtn">My Socials</button>
-      <div class="dropdown-content dropdown-right">
+      <div class="dropdown-content">
         <ul>
           <li><a href="https://x.com/baskalm0ment" target="_blank" rel="noopener noreferrer">X</a></li>
           <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank" rel="noopener noreferrer">Twitch</a></li>
