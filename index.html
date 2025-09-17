@@ -25,7 +25,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      gap: 40px; /* 🔹 smaller gap between buttons */
+      gap: 40px;
       flex: 1;
     }
 
@@ -51,24 +51,36 @@
       color: #0ff;
     }
 
+    /* 🔹 Default dropdown content */
     .dropdown-content {
       display: none;
       position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%); /* 🔹 Center under the button */
-      margin-top: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0;
       padding: 20px;
       white-space: normal;
       font-size: 18px;
       color: white;
       min-width: 200px;
-      max-width: 90vw; /* 🔹 Always fits screen width */
+      max-width: 40vw; /* Always fit inside screen */
       z-index: 999;
       word-wrap: break-word;
       background: rgba(0, 0, 0, 0.85);
       border: 1px solid #0ff;
       border-radius: 8px;
+    }
+
+    /* 🔹 Gear opens to the left */
+    .dropdown.left .dropdown-content {
+      right: 100%;
+      margin-right: 15px;
+    }
+
+    /* 🔹 Socials opens to the right */
+    .dropdown.right .dropdown-content {
+      left: 100%;
+      margin-left: 15px;
     }
 
     .dropdown:hover .dropdown-content,
@@ -144,6 +156,7 @@
       .dropdown-content {
         position: relative;
         left: auto;
+        right: auto;
         transform: none;
         max-width: 95vw;
         width: auto;
@@ -161,8 +174,8 @@
   </div>
 
   <nav>
-    <!-- My Gear -->
-    <div class="dropdown">
+    <!-- My Gear (left) -->
+    <div class="dropdown left">
       <button class="dropbtn">My Gear</button>
       <div class="dropdown-content">
         <ul>
@@ -177,20 +190,20 @@
       </div>
     </div>
 
-    <!-- My Socials -->
-    <div class="dropdown">
+    <!-- My Socials (right) -->
+    <div class="dropdown right">
       <button class="dropbtn">My Socials</button>
       <div class="dropdown-content">
         <ul>
-          <li><a href="https://x.com/baskalm0ment" target="_blank" rel="noopener noreferrer">X</a></li>
-          <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank" rel="noopener noreferrer">Twitch</a></li>
-          <li><a href="https://github.com/BaskalM0ment" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-          <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-          <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-          <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-          <li><a href="https://discord.com/users/900420740732551188" target="_blank" rel="noopener noreferrer">Discord</a></li>
-          <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank" rel="noopener noreferrer">Steam</a></li>
-          <li><a href="https://vk.com/id891960345" target="_blank" rel="noopener noreferrer">Vk</a></li>
+          <li><a href="https://x.com/baskalm0ment" target="_blank">X</a></li>
+          <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
+          <li><a href="https://github.com/BaskalM0ment" target="_blank">GitHub</a></li>
+          <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
+          <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
+          <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank">Steam</a></li>
+          <li><a href="https://vk.com/id891960345" target="_blank">Vk</a></li>
         </ul>
       </div>
     </div>
