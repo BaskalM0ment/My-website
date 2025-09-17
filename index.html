@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baskalmoment</title>
+  <title>My Page</title>
   <style>
     * {
       box-sizing: border-box;
@@ -60,9 +60,10 @@
       white-space: normal;
       font-size: 20px;
       color: white;
-      min-width: 250px;
+      min-width: 200px;
       max-width: 300px;
       z-index: 999;
+      word-wrap: break-word;
     }
 
     .dropdown-left {
@@ -125,11 +126,57 @@
       padding: 10px;
       font-size: 20px;
       color: white;
-      position: fixed; /* new */
-      bottom: 0;       /* new */
-      left: 0;         /* new */
-      width: 100%;     /* new */
-      background: transparent; /* keeps background clean */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+    }
+
+    /* 📱 Responsive Design */
+    @media (max-width: 1024px) {
+      .dropbtn {
+        font-size: 36px;
+        width: 250px;
+      }
+      .dropdown-content {
+        font-size: 18px;
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        gap: 60px;
+      }
+      .dropbtn {
+        font-size: 28px;
+        width: 200px;
+      }
+      .dropdown-content {
+        font-size: 16px;
+        max-width: 220px;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        gap: 40px;
+      }
+      .dropbtn {
+        font-size: 22px;
+        width: 180px;
+        padding: 10px 20px;
+      }
+      .dropdown-content {
+        font-size: 14px;
+        max-width: 200px;
+        padding: 10px;
+      }
+      footer {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -146,10 +193,9 @@
       <div class="dropdown-content dropdown-left">
         <ul>
           <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
-          <li><strong>Second Monitor:</strong> ASUS VG27A 165 hz</li>
-          <li><strong>Mouse:</strong> Logitech G Pro X Superlight 2</li>
+          <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
           <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
-          <li><strong>Headset:</strong> Logitech G Pro X Wireless Lightspeed</li>
+          <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
           <li><strong>GPU:</strong> RTX 4070 Ti Super</li>
           <li><strong>CPU:</strong> Intel i7-14700F</li>
           <li><strong>RAM:</strong> 32GB DDR4</li>
@@ -160,7 +206,7 @@
     <div class="dropdown">
       <button class="dropbtn">About Me</button>
       <div class="dropdown-content dropdown-right">
-        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2 and Grand Theft Auto 5. There is nothing else I can say.</p>
+        <p>Hello and welcome to my website. My name is Baskal Moment. I like to play video games like CS2, Grand Theft Auto 5, and NBA 2K25. There is nothing else I can say.</p>
       </div>
     </div>
 
@@ -183,7 +229,7 @@
   </nav>
 
   <footer>
-    &copy; 2025 BaskalMoment. All rights reserved.
+    &copy; 2025 Baskal Moment. All rights reserved.
   </footer>
 
   <script>
@@ -204,6 +250,3 @@
   </script>
 </body>
 </html>
-
-
-
