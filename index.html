@@ -48,27 +48,26 @@
     }
 
     .dropbtn:hover {
-      color: #0ff;
+      color: white; /* stays same color */
     }
 
-    /* 🔹 Default dropdown content */
+    /* 🔹 Dropdown content */
     .dropdown-content {
       display: none;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       margin: 0;
-      padding: 20px;
+      padding: 0;
       white-space: normal;
       font-size: 18px;
       color: white;
       min-width: 200px;
-      max-width: 40vw; /* Always fit inside screen */
+      max-width: 40vw;
       z-index: 999;
       word-wrap: break-word;
-      background: rgba(0, 0, 0, 0.85);
-      border: 1px solid #0ff;
-      border-radius: 8px;
+      background: none; /* no background */
+      border: none; /* no border */
     }
 
     /* 🔹 Gear opens to the left */
@@ -128,19 +127,6 @@
 
     #intro button:hover {
       color: #0ff;
-    }
-
-    footer {
-      text-align: center;
-      padding: 10px;
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: transparent;
     }
 
     /* 📱 Responsive Fixes */
@@ -208,10 +194,6 @@
       </div>
     </div>
   </nav>
-
-  <footer>
-    &copy; 2025 Baskal Moment. All rights reserved.
-  </footer>
 
   <script>
     let hoverEnabled = false;
