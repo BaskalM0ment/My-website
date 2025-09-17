@@ -64,6 +64,9 @@
       max-width: 300px;
       z-index: 999;
       word-wrap: break-word;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid #0ff;
+      border-radius: 8px;
     }
 
     .dropdown-left {
@@ -151,12 +154,16 @@
       }
       .dropbtn {
         font-size: 28px;
-        width: 200px;
+        width: 220px;
       }
       .dropdown-content {
         font-size: 16px;
-        max-width: 220px;
+        max-width: 90vw; /* fit small screens */
         padding: 15px;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        top: 100% !important; /* always open downward */
       }
     }
 
@@ -166,12 +173,12 @@
       }
       .dropbtn {
         font-size: 22px;
-        width: 180px;
+        width: 200px;
         padding: 10px 20px;
       }
       .dropdown-content {
         font-size: 14px;
-        max-width: 200px;
+        max-width: 95vw;
         padding: 10px;
       }
       footer {
