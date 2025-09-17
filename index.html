@@ -48,7 +48,7 @@
     }
 
     .dropbtn:hover {
-      color: white; /* stays same color */
+      color: white; /* stays white */
     }
 
     /* 🔹 Dropdown content */
@@ -107,28 +107,6 @@
       text-decoration: underline;
     }
 
-    #intro {
-      position: fixed;
-      inset: 0;
-      background: black;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    #intro button {
-      all: unset;
-      font-size: 32px;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    #intro button:hover {
-      color: #0ff;
-    }
-
     /* 📱 Responsive Fixes */
     @media (max-width: 768px) {
       nav {
@@ -153,12 +131,6 @@
   </style>
 </head>
 <body>
-  <audio id="hoverSound" src="tunetank.com_menu-interface-selection.wav" preload="auto"></audio>
-
-  <div id="intro">
-    <button onclick="startSite()">Enter Site</button>
-  </div>
-
   <nav>
     <!-- My Gear (left) -->
     <div class="dropdown left">
@@ -194,22 +166,5 @@
       </div>
     </div>
   </nav>
-
-  <script>
-    let hoverEnabled = false;
-    function startSite() {
-      document.getElementById("intro").style.display = "none";
-      hoverEnabled = true;
-    }
-    const hoverSound = document.getElementById("hoverSound");
-    document.querySelectorAll(".dropbtn").forEach(btn => {
-      btn.addEventListener("mouseenter", () => {
-        if (hoverEnabled) {
-          hoverSound.currentTime = 0;
-          hoverSound.play();
-        }
-      });
-    });
-  </script>
 </body>
 </html>
