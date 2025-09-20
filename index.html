@@ -10,8 +10,7 @@
     }
     body {
       margin: 0;
-      background: url("https://images.unsplash.com/photo-1527443224154-9f23e54d3d88?auto=format&fit=crop&w=1950&q=80") no-repeat center center fixed;
-      background-size: cover;
+      background-color: #000;
       color: #fff;
       font-family: Arial, sans-serif;
       height: 100vh;
@@ -20,7 +19,6 @@
       justify-content: center;
       align-items: center;
     }
-
     nav {
       display: flex;
       flex-direction: row;
@@ -29,12 +27,10 @@
       gap: 40px;
       flex: 1;
     }
-
     .dropdown {
       position: relative;
       width: max-content;
     }
-
     .dropbtn {
       background: transparent;
       border: none;
@@ -47,91 +43,56 @@
       font-weight: 600;
       transition: color 0.3s ease;
     }
-
     .dropbtn:hover {
-      color: white;
+      color: white; /* stays white */
     }
-
+    /* 🔹 Dropdown content */
     .dropdown-content {
       display: none;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      margin: 0;
+      padding: 0;
+      white-space: normal;
       font-size: 18px;
       color: white;
       min-width: 200px;
       max-width: 40vw;
       z-index: 999;
       word-wrap: break-word;
-      background: none;
-      border: none;
+      background: none; /* no background */
+      border: none; /* no border */
     }
-
+    /* 🔹 Gear opens to the left */
     .dropdown.left .dropdown-content {
       right: 100%;
       margin-right: 15px;
     }
-
+    /* 🔹 Socials opens to the right */
     .dropdown.right .dropdown-content {
       left: 100%;
       margin-left: 15px;
     }
-
     .dropdown:hover .dropdown-content,
     .dropdown-content:hover {
       display: block;
     }
-
     .dropdown-content ul {
       padding: 0;
       margin: 0;
       list-style: none;
     }
-
     .dropdown-content ul li {
       margin-bottom: 12px;
     }
-
     .dropdown-content a {
       color: white;
       text-decoration: none;
       font-weight: 600;
     }
-
     .dropdown-content a:hover {
       text-decoration: underline;
-    }
-
-    /* 🎵 Music Controls */
-    #music-controls {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.6);
-      padding: 10px 20px;
-      border-radius: 10px;
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-
-    #music-controls button {
-      background: #222;
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 6px;
-    }
-
-    #music-controls button:hover {
-      background: #444;
-    }
-
-    #music-controls input[type=range] {
-      cursor: pointer;
     }
 
     /* 📱 Responsive Fixes */
@@ -155,9 +116,30 @@
         text-align: center;
       }
     }
+
+    /* 🎵 Audio Controls */
+    .audio-player {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .audio-player button,
+    .audio-player input[type="range"] {
+      margin: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+
+  <!-- 🎵 Audio Player -->
+  <div class="audio-player">
+    <audio id="audio" preload="auto"></audio><br>
+    <button onclick="playPause()">▶️/⏸️</button>
+    <button onclick="nextSong()">⏭️ Shuffle</button><br>
+    <label for="volume">🔊</label>
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+  </div>
+
   <nav>
     <!-- My Gear (left) -->
     <div class="dropdown left">
@@ -175,7 +157,7 @@
       </div>
     </div>
 
-    <!-- My Socials (right, longest → shortest) -->
+    <!-- My Socials (right, reordered longest → shortest) -->
     <div class="dropdown right">
       <button class="dropbtn">My Socials</button>
       <div class="dropdown-content">
@@ -194,55 +176,37 @@
     </div>
   </nav>
 
-  <!-- 🎵 Music Controls -->
-  <div id="music-controls">
-    <button onclick="prevSong()">⏮ Prev</button>
-    <button onclick="togglePlay()">▶️/⏸</button>
-    <button onclick="nextSong()">⏭ Next</button>
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
-  </div>
-
-  <!-- 🎵 Audio -->
-  <audio id="audioPlayer" autoplay loop></audio>
-
   <script>
     const songs = [
-      "music/After_Dark_KLICKAUD.mp3",
-      "music/Sweater_Weather_KLICKAUD.mp3"
+      "After_Dark_KLICKAUD.mp3",
+      "Sweater_Weather_KLICKAUD.mp3"
     ];
-
     let currentSong = 0;
-    const audioPlayer = document.getElementById("audioPlayer");
-    const volumeSlider = document.getElementById("volume");
+    const audio = document.getElementById("audio");
 
     function loadSong(index) {
-      audioPlayer.src = songs[index];
-      audioPlayer.play();
+      audio.src = songs[index];
+      audio.play();
     }
 
-    function togglePlay() {
-      if (audioPlayer.paused) {
-        audioPlayer.play();
+    function playPause() {
+      if (audio.paused) {
+        audio.play();
       } else {
-        audioPlayer.pause();
+        audio.pause();
       }
     }
 
     function nextSong() {
-      currentSong = (currentSong + 1) % songs.length;
+      currentSong = Math.floor(Math.random() * songs.length);
       loadSong(currentSong);
     }
 
-    function prevSong() {
-      currentSong = (currentSong - 1 + songs.length) % songs.length;
-      loadSong(currentSong);
+    function setVolume(value) {
+      audio.volume = value;
     }
 
-    volumeSlider.addEventListener("input", () => {
-      audioPlayer.volume = volumeSlider.value;
-    });
-
-    // Load first song
+    // Load first song automatically
     loadSong(currentSong);
   </script>
 </body>
