@@ -46,7 +46,6 @@
     .dropbtn:hover {
       color: white; /* stays white */
     }
-    /* 🔹 Dropdown content */
     .dropdown-content {
       display: none;
       position: absolute;
@@ -61,15 +60,13 @@
       max-width: 40vw;
       z-index: 999;
       word-wrap: break-word;
-      background: none; /* no background */
-      border: none; /* no border */
+      background: none;
+      border: none;
     }
-    /* 🔹 Gear opens to the left */
     .dropdown.left .dropdown-content {
       right: 100%;
       margin-right: 15px;
     }
-    /* 🔹 Socials opens to the right */
     .dropdown.right .dropdown-content {
       left: 100%;
       margin-left: 15px;
@@ -122,9 +119,40 @@
       margin-bottom: 20px;
       text-align: center;
     }
-    .audio-player button,
-    .audio-player input[type="range"] {
-      margin: 5px;
+    .audio-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: transform 0.2s ease;
+    }
+    .audio-controls button:hover {
+      transform: scale(1.2);
+    }
+    .audio-controls input[type="range"] {
+      -webkit-appearance: none;
+      width: 150px;
+      height: 4px;
+      background: #444;
+      border-radius: 5px;
+      outline: none;
+    }
+    .audio-controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+    }
+    .audio-controls input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
       cursor: pointer;
     }
   </style>
@@ -133,11 +161,14 @@
 
   <!-- 🎵 Audio Player -->
   <div class="audio-player">
-    <audio id="audio" preload="auto"></audio><br>
-    <button onclick="playPause()">▶️/⏸️</button>
-    <button onclick="nextSong()">⏭️ Shuffle</button><br>
-    <label for="volume">🔊</label>
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+    <audio id="audio" preload="auto"></audio>
+    <div class="audio-controls">
+      <button onclick="prevSong()">&lt;--</button>
+      <button onclick="playPause()" id="playBtn">▶️</button>
+      <button onclick="nextSong()">--&gt;</button>
+      <br><br>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+    </div>
   </div>
 
   <nav>
@@ -183,22 +214,31 @@
     ];
     let currentSong = 0;
     const audio = document.getElementById("audio");
+    const playBtn = document.getElementById("playBtn");
 
     function loadSong(index) {
       audio.src = songs[index];
       audio.play();
+      playBtn.textContent = "⏸️";
     }
 
     function playPause() {
       if (audio.paused) {
         audio.play();
+        playBtn.textContent = "⏸️";
       } else {
         audio.pause();
+        playBtn.textContent = "▶️";
       }
     }
 
     function nextSong() {
-      currentSong = Math.floor(Math.random() * songs.length);
+      currentSong = (currentSong + 1) % songs.length;
+      loadSong(currentSong);
+    }
+
+    function prevSong() {
+      currentSong = (currentSong - 1 + songs.length) % songs.length;
       loadSong(currentSong);
     }
 
