@@ -44,7 +44,7 @@
       transition: color 0.3s ease;
     }
     .dropbtn:hover {
-      color: white; /* stays white */
+      color: white;
     }
     .dropdown-content {
       display: none;
@@ -116,8 +116,17 @@
 
     /* 🎵 Audio Controls */
     .audio-player {
-      margin-bottom: 20px;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
+      color: white;
+    }
+    .now-playing {
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
     .audio-controls button {
       background: none;
@@ -159,18 +168,6 @@
 </head>
 <body>
 
-  <!-- 🎵 Audio Player -->
-  <div class="audio-player">
-    <audio id="audio" preload="auto"></audio>
-    <div class="audio-controls">
-      <button onclick="prevSong()">&lt;--</button>
-      <button onclick="playPause()" id="playBtn">▶️</button>
-      <button onclick="nextSong()">--&gt;</button>
-      <br><br>
-      <input type="range" id="volume" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
-    </div>
-  </div>
-
   <nav>
     <!-- My Gear (left) -->
     <div class="dropdown left">
@@ -207,17 +204,32 @@
     </div>
   </nav>
 
+  <!-- 🎵 Audio Player -->
+  <div class="audio-player">
+    <div class="now-playing" id="nowPlaying">Now Playing: -</div>
+    <audio id="audio" preload="auto"></audio>
+    <div class="audio-controls">
+      <button onclick="prevSong()">&lt;--</button>
+      <button onclick="playPause()" id="playBtn">▶️</button>
+      <button onclick="nextSong()">--&gt;</button>
+      <br><br>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+    </div>
+  </div>
+
   <script>
     const songs = [
-      "After_Dark_KLICKAUD.mp3",
-      "Sweater_Weather_KLICKAUD.mp3"
+      { src: "After_Dark_KLICKAUD.mp3", title: "After Dark" },
+      { src: "Sweater_Weather_KLICKAUD.mp3", title: "Sweater Weather" }
     ];
     let currentSong = 0;
     const audio = document.getElementById("audio");
     const playBtn = document.getElementById("playBtn");
+    const nowPlaying = document.getElementById("nowPlaying");
 
     function loadSong(index) {
-      audio.src = songs[index];
+      audio.src = songs[index].src;
+      nowPlaying.textContent = "Now Playing: " + songs[index].title;
       audio.play();
       playBtn.textContent = "⏸️";
     }
