@@ -73,8 +73,19 @@
     }
 
     /* ✅ Keep dropdown open when hovering button OR content */
-    .dropdown:hover .dropdown-content {
+    .dropdown:hover .dropdown-content,
+    .dropdown-content:hover {
       display: block;
+    }
+
+    /* ✅ Invisible hover bridge */
+    .dropdown::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
 
     .dropdown-content ul {
