@@ -71,10 +71,14 @@
       left: 100%;
       margin-left: 15px;
     }
+
+    /* ✅ Keep dropdown open when hovering button OR content */
     .dropdown:hover .dropdown-content,
-    .dropdown-content:hover {
+    .dropdown-content:hover,
+    .dropdown:focus-within .dropdown-content {
       display: block;
     }
+
     .dropdown-content ul {
       padding: 0;
       margin: 0;
