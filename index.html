@@ -72,22 +72,6 @@
       margin-left: 15px;
     }
 
-    /* ✅ Keep dropdown open when hovering button OR content */
-    .dropdown:hover .dropdown-content,
-    .dropdown-content:hover {
-      display: block;
-    }
-
-    /* ✅ Invisible hover bridge */
-    .dropdown::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-
     .dropdown-content ul {
       padding: 0;
       margin: 0;
@@ -224,6 +208,30 @@
   <audio id="audio" src="After_Dark_KLICKAUD.mp3"></audio>
 
   <script>
+    // --- Dropdown hover delay fix ---
+    document.querySelectorAll(".dropdown").forEach(dropdown => {
+      const button = dropdown.querySelector(".dropbtn");
+      const menu = dropdown.querySelector(".dropdown-content");
+      let hideTimeout;
+
+      function showMenu() {
+        clearTimeout(hideTimeout);
+        menu.style.display = "block";
+      }
+
+      function hideMenu() {
+        hideTimeout = setTimeout(() => {
+          menu.style.display = "none";
+        }, 250); // small delay fixes flicker
+      }
+
+      button.addEventListener("mouseenter", showMenu);
+      button.addEventListener("mouseleave", hideMenu);
+      menu.addEventListener("mouseenter", showMenu);
+      menu.addEventListener("mouseleave", hideMenu);
+    });
+
+    // --- Audio Player ---
     const audio = document.getElementById("audio");
     const playPauseBtn = document.getElementById("play-pause");
     const prevBtn = document.getElementById("prev");
@@ -263,7 +271,6 @@
       audio.volume = volumeSlider.value;
     });
 
-    // Start with first track
     loadTrack(currentTrack);
   </script>
 </body>
