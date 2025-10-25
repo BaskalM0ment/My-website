@@ -18,11 +18,12 @@
       align-items: center;
     }
 
-    /* 🔘 Enter Page */
+    /* 🔘 Enter Page Overlay */
     #enter-page {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: black;
+      backdrop-filter: blur(15px);
+      background: rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -31,21 +32,22 @@
       z-index: 1000;
     }
     #enter-button {
-      background: white;
-      color: black;
+      background: none;
+      color: white;
       border: none;
-      padding: 20px 40px;
-      font-size: 24px;
+      font-size: 40px;
       font-weight: bold;
       cursor: pointer;
-      border-radius: 10px;
-      transition: background 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      transition: transform 0.3s, color 0.3s;
     }
     #enter-button:hover {
-      background: #ccc;
+      color: #ccc;
+      transform: scale(1.05);
     }
 
-    /* 🌐 Main Content (Hidden Initially) */
+    /* 🌐 Main Content */
     #main-content {
       display: none;
       flex-direction: column;
@@ -155,7 +157,7 @@
       cursor: pointer;
     }
 
-    /* 📱 Responsive Fixes */
+    /* 📱 Responsive */
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
