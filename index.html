@@ -8,7 +8,6 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background-color: #000;
       color: #fff;
       font-family: Arial, sans-serif;
       height: 100vh;
@@ -16,6 +15,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: #000;
+    }
+
+    /* 🎥 Background Video */
+    #background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.4);
     }
 
     /* 🔘 Enter Page Overlay */
@@ -186,6 +198,11 @@
 </head>
 <body>
 
+  <!-- 🎥 Background Video -->
+  <video id="background-video" autoplay muted loop playsinline>
+    <source src="YTDown.com_YouTube_Ken-Carson-Jennifer-s-Body-Official-Musi_Media_CSMiPngo4uE_001_1080p (online-video-cutter.com) (1).mp4" type="video/mp4">
+  </video>
+
   <!-- 🔘 Enter Page -->
   <div id="enter-page">
     <button id="enter-button">ENTER SITE</button>
@@ -194,7 +211,6 @@
   <!-- 🌐 Main Page -->
   <div id="main-content">
     <nav>
-      <!-- My Gear -->
       <div class="dropdown left">
         <button class="dropbtn">My Gear</button>
         <div class="dropdown-content">
@@ -210,7 +226,6 @@
         </div>
       </div>
 
-      <!-- My Socials -->
       <div class="dropdown right">
         <button class="dropbtn">My Socials</button>
         <div class="dropdown-content">
@@ -229,7 +244,6 @@
       </div>
     </nav>
 
-    <!-- 🎶 Audio Player -->
     <div class="audio-controls">
       <button id="prev"><</button>
       <button id="play-pause">▶</button>
@@ -283,7 +297,6 @@
       audio.volume = volumeSlider.value;
     });
 
-    // ✅ Enter site logic
     enterButton.addEventListener("click", () => {
       enterPage.style.opacity = "0";
       setTimeout(() => {
