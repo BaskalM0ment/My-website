@@ -98,10 +98,8 @@
 
     .dropbtn:hover { color: white; }
 
-    /* ✅ FIXED DROPDOWN BEHAVIOR */
     .dropdown-content {
-      visibility: hidden;
-      opacity: 0;
+      display: none;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -115,19 +113,10 @@
       z-index: 999;
       background: none;
       border: none;
-      transition: opacity 0.2s ease;
-      pointer-events: none;
     }
 
     .dropdown.left .dropdown-content { right: 100%; margin-right: 15px; }
     .dropdown.right .dropdown-content { left: 100%; margin-left: 15px; }
-
-    .dropdown:hover .dropdown-content,
-    .dropdown-content:hover {
-      visibility: visible;
-      opacity: 1;
-      pointer-events: auto;
-    }
 
     .dropdown-content ul { padding: 0; margin: 0; list-style: none; }
     .dropdown-content ul li { margin-bottom: 12px; }
@@ -317,6 +306,34 @@
         mainContent.style.display = "flex";
         loadTrack(currentTrack);
       }, 800);
+    });
+
+    // ✅ FIX: Delay hiding dropdowns so they don't flicker
+    document.querySelectorAll(".dropdown").forEach(dropdown => {
+      const content = dropdown.querySelector(".dropdown-content");
+      let hideTimeout;
+
+      dropdown.addEventListener("mouseenter", () => {
+        clearTimeout(hideTimeout);
+        content.style.display = "block";
+      });
+
+      dropdown.addEventListener("mouseleave", () => {
+        hideTimeout = setTimeout(() => {
+          content.style.display = "none";
+        }, 200);
+      });
+
+      content.addEventListener("mouseenter", () => {
+        clearTimeout(hideTimeout);
+        content.style.display = "block";
+      });
+
+      content.addEventListener("mouseleave", () => {
+        hideTimeout = setTimeout(() => {
+          content.style.display = "none";
+        }, 200);
+      });
     });
   </script>
 </body>
