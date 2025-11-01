@@ -43,6 +43,7 @@
       transition: opacity 1s ease;
       z-index: 1000;
     }
+
     #enter-button {
       background: none;
       color: white;
@@ -54,6 +55,7 @@
       letter-spacing: 3px;
       transition: transform 0.3s, color 0.3s;
     }
+
     #enter-button:hover {
       color: #ccc;
       transform: scale(1.05);
@@ -147,6 +149,7 @@
       font-size: 20px;
       color: white;
     }
+
     .audio-controls button {
       background: none;
       border: none;
@@ -155,6 +158,7 @@
       cursor: pointer;
       font-weight: bold;
     }
+
     .audio-controls input[type="range"] {
       -webkit-appearance: none;
       width: 120px;
@@ -163,6 +167,7 @@
       border-radius: 2px;
       cursor: pointer;
     }
+
     .audio-controls input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 14px;
@@ -272,7 +277,6 @@
     <strong>Discord Activity</strong><br>
     <div id="discord-status">Loading...</div>
     <div id="discord-details"></div>
-
     <div id="spotify-activity">
       <img id="spotify-album" src="" alt="Album Cover" />
       <div class="song-info">
@@ -283,10 +287,103 @@
   </div>
 
   <div id="main-content">
-    <!-- Keep all your existing content here (gear, socials, audio, etc.) -->
+    <nav>
+      <div class="dropdown left">
+        <button class="dropbtn">My Gear</button>
+        <div class="dropdown-content">
+          <ul>
+            <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
+            <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
+            <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
+            <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
+            <li><strong>GPU:</strong> RTX 4070 Ti Super</li>
+            <li><strong>CPU:</strong> Intel i7-14700F</li>
+            <li><strong>RAM:</strong> 32GB DDR4</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dropdown right">
+        <button class="dropbtn">My Socials</button>
+        <div class="dropdown-content">
+          <ul>
+            <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
+            <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
+            <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
+            <li><a href="https://github.com/BaskalM0ment" target="_blank">GitHub</a></li>
+            <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
+            <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
+            <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank">Steam</a></li>
+            <li><a href="https://vk.com/id891960345" target="_blank">Vk</a></li>
+            <li><a href="https://x.com/baskalm0ment" target="_blank">X</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="audio-controls">
+      <button id="prev"><</button>
+      <button id="play-pause">▶</button>
+      <button id="next">></button>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+    </div>
+
+    <audio id="audio" src="After_Dark_KLICKAUD.mp3"></audio>
   </div>
 
   <script>
+    const enterPage = document.getElementById("enter-page");
+    const mainContent = document.getElementById("main-content");
+    const enterButton = document.getElementById("enter-button");
+    const audio = document.getElementById("audio");
+    const playPauseBtn = document.getElementById("play-pause");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+    const volumeSlider = document.getElementById("volume");
+
+    const tracks = ["After_Dark_KLICKAUD.mp3", "Sweater_Weather_KLICKAUD.mp3"];
+    let currentTrack = 0;
+
+    function loadTrack(index) {
+      audio.src = tracks[index];
+      audio.play();
+      playPauseBtn.textContent = "⏸";
+    }
+
+    playPauseBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = "⏸";
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = "▶";
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentTrack = (currentTrack + 1) % tracks.length;
+      loadTrack(currentTrack);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrack);
+    });
+
+    volumeSlider.addEventListener("input", () => {
+      audio.volume = volumeSlider.value;
+    });
+
+    enterButton.addEventListener("click", () => {
+      enterPage.style.opacity = "0";
+      setTimeout(() => {
+        enterPage.style.display = "none";
+        mainContent.style.display = "flex";
+        loadTrack(currentTrack);
+      }, 800);
+    });
+
+    // 🎮 Discord activity
     const discordStatus = document.getElementById("discord-status");
     const discordDetails = document.getElementById("discord-details");
     const spotifyActivity = document.getElementById("spotify-activity");
