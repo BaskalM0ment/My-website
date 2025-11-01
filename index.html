@@ -77,12 +77,10 @@
       gap: 40px;
       flex: 1;
     }
-
     .dropdown {
       position: relative;
       width: max-content;
     }
-
     .dropbtn {
       background: transparent;
       border: none;
@@ -95,11 +93,10 @@
       font-weight: 600;
       transition: color 0.3s ease;
     }
-
     .dropbtn:hover { color: white; }
-
     .dropdown-content {
-      display: none;
+      visibility: hidden;
+      opacity: 0;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -113,10 +110,16 @@
       z-index: 999;
       background: none;
       border: none;
+      transition: opacity 0.2s ease;
     }
-
     .dropdown.left .dropdown-content { right: 100%; margin-right: 15px; }
     .dropdown.right .dropdown-content { left: 100%; margin-left: 15px; }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown-content:hover {
+      visibility: visible;
+      opacity: 1;
+    }
 
     .dropdown-content ul { padding: 0; margin: 0; list-style: none; }
     .dropdown-content ul li { margin-bottom: 12px; }
@@ -163,12 +166,20 @@
       background: white;
       cursor: pointer;
     }
-    .audio-controls input[type="range"]::-moz-range-thumb {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: white;
-      cursor: pointer;
+
+    /* 💬 Discord Activity */
+    #discord-activity {
+      position: fixed;
+      top: 20px;
+      left: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 12px;
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+      z-index: 20;
     }
 
     /* 📱 Responsive */
@@ -209,6 +220,9 @@
   <div id="enter-page">
     <button id="enter-button">ENTER SITE</button>
   </div>
+
+  <!-- 💬 Discord Activity -->
+  <div id="discord-activity">Loading Discord activity...</div>
 
   <!-- 🌐 Main Page -->
   <div id="main-content">
@@ -265,6 +279,7 @@
     const prevBtn = document.getElementById("prev");
     const nextBtn = document.getElementById("next");
     const volumeSlider = document.getElementById("volume");
+    const discordActivity = document.getElementById("discord-activity");
 
     const tracks = ["After_Dark_KLICKAUD.mp3", "Sweater_Weather_KLICKAUD.mp3"];
     let currentTrack = 0;
@@ -308,33 +323,28 @@
       }, 800);
     });
 
-    // ✅ FIX: Delay hiding dropdowns so they don't flicker
-    document.querySelectorAll(".dropdown").forEach(dropdown => {
-      const content = dropdown.querySelector(".dropdown-content");
-      let hideTimeout;
+    // 🟢 Discord Activity Fetch
+    async function fetchDiscordActivity() {
+      try {
+        const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
+        const data = await res.json();
+        if (data.success) {
+          const presence = data.data.activities.find(a => a.name !== "Custom Status");
+          if (presence) {
+            discordActivity.textContent = `${presence.name}${presence.details ? " – " + presence.details : ""}`;
+          } else {
+            discordActivity.textContent = "Online but no current activity.";
+          }
+        } else {
+          discordActivity.textContent = "Could not load Discord activity.";
+        }
+      } catch {
+        discordActivity.textContent = "Error fetching Discord activity.";
+      }
+    }
 
-      dropdown.addEventListener("mouseenter", () => {
-        clearTimeout(hideTimeout);
-        content.style.display = "block";
-      });
-
-      dropdown.addEventListener("mouseleave", () => {
-        hideTimeout = setTimeout(() => {
-          content.style.display = "none";
-        }, 200);
-      });
-
-      content.addEventListener("mouseenter", () => {
-        clearTimeout(hideTimeout);
-        content.style.display = "block";
-      });
-
-      content.addEventListener("mouseleave", () => {
-        hideTimeout = setTimeout(() => {
-          content.style.display = "none";
-        }, 200);
-      });
-    });
+    fetchDiscordActivity();
+    setInterval(fetchDiscordActivity, 15000); // update every 15s
   </script>
 </body>
 </html>
