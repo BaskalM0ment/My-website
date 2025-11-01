@@ -175,6 +175,7 @@
       display: none;
       align-items: center;
       gap: 10px;
+      overflow: hidden;
     }
 
     #spotify-activity img {
@@ -186,15 +187,30 @@
     #spotify-activity .song-info {
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      width: 180px;
     }
 
     #spotify-activity .song-info span {
       font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
     }
 
     #spotify-activity .song-info .title {
       font-weight: bold;
       font-size: 15px;
+    }
+
+    /* 🎵 Scrolling animation for long text */
+    .scrollable {
+      animation: scroll-text 10s linear infinite;
+    }
+
+    @keyframes scroll-text {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
 
     @media (max-width: 768px) {
@@ -291,13 +307,19 @@
       }, 800);
     });
 
-    // 🎮 Discord activity
     const discordStatus = document.getElementById("discord-status");
     const discordDetails = document.getElementById("discord-details");
     const spotifyActivity = document.getElementById("spotify-activity");
     const spotifyAlbum = document.getElementById("spotify-album");
     const spotifySong = document.getElementById("spotify-song");
     const spotifyArtist = document.getElementById("spotify-artist");
+
+    function enableScrolling() {
+      [spotifySong, spotifyArtist].forEach(el => {
+        el.classList.remove("scrollable");
+        if (el.scrollWidth > el.clientWidth) el.classList.add("scrollable");
+      });
+    }
 
     async function fetchDiscordActivity() {
       try {
@@ -330,6 +352,7 @@
             spotifySong.textContent = s.song;
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
+            enableScrolling();
           } else {
             spotifyActivity.style.display = "none";
             if (activity) {
