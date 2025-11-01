@@ -167,20 +167,35 @@
       cursor: pointer;
     }
 
-    /* 💬 Discord Activity */
+    /* 💬 Discord Activity Box */
     #discord-activity {
       position: fixed;
       top: 20px;
       left: 30px;
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 500;
       color: white;
       background: rgba(0, 0, 0, 0.4);
-      padding: 6px 12px;
-      border-radius: 8px;
-      backdrop-filter: blur(4px);
+      padding: 10px 16px;
+      border-radius: 10px;
+      backdrop-filter: blur(6px);
       z-index: 20;
+      line-height: 1.6em;
+      min-width: 240px;
     }
+    #discord-activity strong {
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ccc;
+    }
+    #discord-status {
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    #discord-status.online { color: #43b581; }
+    #discord-status.idle { color: #faa61a; }
+    #discord-status.dnd { color: #f04747; }
 
     /* 📱 Responsive */
     @media (max-width: 768px) {
@@ -206,6 +221,12 @@
         flex-direction: column;
         gap: 10px;
       }
+      #discord-activity {
+        left: 10px;
+        top: 10px;
+        font-size: 14px;
+        padding: 8px 12px;
+      }
     }
   </style>
 </head>
@@ -222,7 +243,11 @@
   </div>
 
   <!-- 💬 Discord Activity -->
-  <div id="discord-activity">Loading Discord activity...</div>
+  <div id="discord-activity">
+    <strong>Discord Activity</strong><br>
+    <div id="discord-status">Loading...</div>
+    <div id="discord-details"></div>
+  </div>
 
   <!-- 🌐 Main Page -->
   <div id="main-content">
@@ -279,7 +304,8 @@
     const prevBtn = document.getElementById("prev");
     const nextBtn = document.getElementById("next");
     const volumeSlider = document.getElementById("volume");
-    const discordActivity = document.getElementById("discord-activity");
+    const discordStatus = document.getElementById("discord-status");
+    const discordDetails = document.getElementById("discord-details");
 
     const tracks = ["After_Dark_KLICKAUD.mp3", "Sweater_Weather_KLICKAUD.mp3"];
     let currentTrack = 0;
@@ -329,17 +355,37 @@
         const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
         const data = await res.json();
         if (data.success) {
-          const presence = data.data.activities.find(a => a.name !== "Custom Status");
-          if (presence) {
-            discordActivity.textContent = `${presence.name}${presence.details ? " – " + presence.details : ""}`;
+          const presence = data.data;
+          const activities = presence.activities.filter(a => a.name !== "Custom Status");
+          const activity = activities[0];
+          const status = presence.discord_status;
+
+          // Set status text and color
+          discordStatus.className = "";
+          if (status === "online") {
+            discordStatus.textContent = "🟢 Online";
+            discordStatus.classList.add("online");
+          } else if (status === "idle") {
+            discordStatus.textContent = "🟡 Idle";
+            discordStatus.classList.add("idle");
+          } else if (status === "dnd") {
+            discordStatus.textContent = "🔴 Do Not Disturb";
+            discordStatus.classList.add("dnd");
           } else {
-            discordActivity.textContent = "Online but no current activity.";
+            discordStatus.textContent = "⚫ Offline";
+          }
+
+          // Show activity
+          if (activity) {
+            discordDetails.textContent = `${activity.type === 0 ? "Playing" : ""} ${activity.name}`;
+          } else {
+            discordDetails.textContent = "No current activity";
           }
         } else {
-          discordActivity.textContent = "Could not load Discord activity.";
+          discordStatus.textContent = "Error loading activity";
         }
       } catch {
-        discordActivity.textContent = "Error fetching Discord activity.";
+        discordStatus.textContent = "Error connecting to Discord";
       }
     }
 
