@@ -191,16 +191,17 @@
       width: 180px;
     }
 
+    /* 🎵 Smooth scrolling with pause before loop */
     .scrolling {
       display: inline-block;
       white-space: nowrap;
-      animation: scrollText 12s linear infinite;
+      animation: scrollText 14s linear infinite;
       padding-right: 60px;
     }
 
     @keyframes scrollText {
-      from { transform: translateX(0); }
-      to { transform: translateX(-100%); }
+      0%, 10% { transform: translateX(0); }
+      90%, 100% { transform: translateX(-100%); }
     }
 
     @media (max-width: 768px) {
@@ -336,7 +337,6 @@
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
 
-            // scroll if text is longer than box
             requestAnimationFrame(() => {
               spotifySong.classList.toggle("scrolling", spotifySong.scrollWidth > spotifySong.clientWidth);
               spotifyArtist.classList.toggle("scrolling", spotifyArtist.scrollWidth > spotifyArtist.clientWidth);
