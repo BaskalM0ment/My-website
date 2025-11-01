@@ -191,30 +191,16 @@
       width: 180px;
     }
 
-    #spotify-activity .song-info span {
-      font-size: 14px;
+    .scrolling {
+      display: inline-block;
       white-space: nowrap;
-      overflow: hidden;
-      display: inline-block;
-    }
-
-    #spotify-activity .song-info .title {
-      font-weight: bold;
-      font-size: 15px;
-      display: inline-block;
-      position: relative;
-    }
-
-    /* 🎵 Smooth marquee for long text */
-    .scroll {
-      display: inline-block;
-      animation: scrollText 10s linear infinite;
-      padding-right: 50px;
+      animation: scrollText 12s linear infinite;
+      padding-right: 60px;
     }
 
     @keyframes scrollText {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
     }
 
     @media (max-width: 768px) {
@@ -350,11 +336,11 @@
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
 
-            // Enable scrolling animation for long titles
-            spotifySong.classList.remove("scroll");
-            if (spotifySong.scrollWidth > spotifySong.clientWidth) {
-              spotifySong.classList.add("scroll");
-            }
+            // scroll if text is longer than box
+            requestAnimationFrame(() => {
+              spotifySong.classList.toggle("scrolling", spotifySong.scrollWidth > spotifySong.clientWidth);
+              spotifyArtist.classList.toggle("scrolling", spotifyArtist.scrollWidth > spotifyArtist.clientWidth);
+            });
 
           } else {
             spotifyActivity.style.display = "none";
