@@ -201,14 +201,18 @@
     #spotify-activity .song-info .title {
       font-weight: bold;
       font-size: 15px;
+      display: inline-block;
+      position: relative;
     }
 
-    /* 🎵 Scrolling animation for long text */
-    .scrollable {
-      animation: scroll-text 10s linear infinite;
+    /* 🎵 Smooth marquee for long text */
+    .scroll {
+      display: inline-block;
+      animation: scrollText 10s linear infinite;
+      padding-right: 50px;
     }
 
-    @keyframes scroll-text {
+    @keyframes scrollText {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
@@ -314,13 +318,6 @@
     const spotifySong = document.getElementById("spotify-song");
     const spotifyArtist = document.getElementById("spotify-artist");
 
-    function enableScrolling() {
-      [spotifySong, spotifyArtist].forEach(el => {
-        el.classList.remove("scrollable");
-        if (el.scrollWidth > el.clientWidth) el.classList.add("scrollable");
-      });
-    }
-
     async function fetchDiscordActivity() {
       try {
         const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
@@ -352,7 +349,13 @@
             spotifySong.textContent = s.song;
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
-            enableScrolling();
+
+            // Enable scrolling animation for long titles
+            spotifySong.classList.remove("scroll");
+            if (spotifySong.scrollWidth > spotifySong.clientWidth) {
+              spotifySong.classList.add("scroll");
+            }
+
           } else {
             spotifyActivity.style.display = "none";
             if (activity) {
