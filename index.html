@@ -5,37 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Page</title>
   <style>
-    * { box-sizing: border-box; }
     body {
       margin: 0;
-      color: #fff;
       font-family: Arial, sans-serif;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background: #000;
+      color: white;
+      overflow: hidden;
     }
 
-    /* 🎥 Background Video */
-    #background-video {
+    video {
       position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      top: 0;
+      left: 0;
       z-index: -1;
       filter: brightness(0.4);
     }
 
-    /* 🔘 Enter Page Overlay */
     #enter-page {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       backdrop-filter: blur(15px);
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0,0,0,0.3);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -61,28 +54,17 @@
       transform: scale(1.05);
     }
 
-    /* 🌐 Main Content */
     #main-content {
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      width: 100%;
     }
 
     nav {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
       gap: 40px;
-      flex: 1;
-    }
-
-    .dropdown {
-      position: relative;
-      width: max-content;
     }
 
     .dropbtn {
@@ -92,59 +74,41 @@
       font-size: 40px;
       cursor: pointer;
       padding: 15px 30px;
-      text-align: center;
-      width: 250px;
       font-weight: 600;
       transition: color 0.3s ease;
     }
 
-    .dropbtn:hover { color: white; }
+    .dropbtn:hover { color: #ccc; }
 
     .dropdown-content {
       visibility: hidden;
       opacity: 0;
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      margin: 0;
-      padding: 0;
-      white-space: normal;
-      font-size: 18px;
       color: white;
-      min-width: 200px;
-      max-width: 40vw;
-      z-index: 999;
-      background: none;
-      border: none;
+      font-size: 18px;
       transition: opacity 0.2s ease;
     }
 
-    .dropdown.left .dropdown-content { right: 100%; margin-right: 15px; }
-    .dropdown.right .dropdown-content { left: 100%; margin-left: 15px; }
-
-    .dropdown:hover .dropdown-content,
-    .dropdown-content:hover {
+    .dropdown:hover .dropdown-content {
       visibility: visible;
       opacity: 1;
     }
 
-    .dropdown-content ul { padding: 0; margin: 0; list-style: none; }
-    .dropdown-content ul li { margin-bottom: 12px; }
     .dropdown-content a {
       color: white;
       text-decoration: none;
-      font-weight: 600;
     }
-    .dropdown-content a:hover { text-decoration: underline; }
 
-    /* 💬 Discord Activity Box */
+    .dropdown-content a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Discord Activity --- */
     #discord-activity {
       position: fixed;
       top: 20px;
       left: 30px;
       font-size: 16px;
-      font-weight: 500;
-      color: white;
       background: rgba(0, 0, 0, 0.4);
       padding: 10px 16px;
       border-radius: 10px;
@@ -159,11 +123,6 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       color: #ccc;
-    }
-
-    #discord-status {
-      margin-top: 4px;
-      font-weight: 600;
     }
 
     #discord-status.online { color: #43b581; }
@@ -184,50 +143,29 @@
       border-radius: 6px;
     }
 
-    #spotify-activity .song-info {
+    .song-info {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
       width: 180px;
+      overflow: hidden;
     }
 
-    /* 🎵 Smooth scrolling with pause before loop */
-    .scrolling {
+    /* --- Marquee effect --- */
+    .marquee {
       display: inline-block;
       white-space: nowrap;
-      animation: scrollText 16s linear infinite;
+      animation: marquee 12s linear infinite;
     }
 
-    @keyframes scrollText {
+    @keyframes marquee {
       0%, 10% { transform: translateX(0); }
       90%, 100% { transform: translateX(-100%); }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        gap: 40px;
-      }
-      .dropbtn {
-        font-size: 28px;
-        width: 220px;
-      }
-      .dropdown-content {
-        position: relative;
-        left: auto;
-        right: auto;
-        transform: none;
-        max-width: 95vw;
-        width: auto;
-        margin-top: 10px;
-        text-align: center;
-      }
     }
   </style>
 </head>
 <body>
 
-  <video id="background-video" autoplay muted loop playsinline>
+  <video autoplay muted loop playsinline>
     <source src="https://github.com/BaskalM0ment/My-website/releases/download/v1.0/YTDown.com_YouTube_Ken-Carson-Jennifer-s-Body-Official-Musi_Media_CSMiPngo4uE_001_1080p.online-video-cutter.com.1.mp4" type="video/mp4">
   </video>
 
@@ -242,7 +180,7 @@
     <div id="spotify-activity">
       <img id="spotify-album" src="" alt="Album Cover" />
       <div class="song-info">
-        <span class="title" id="spotify-song"></span>
+        <span id="spotify-song"></span>
         <span id="spotify-artist"></span>
       </div>
     </div>
@@ -250,34 +188,23 @@
 
   <div id="main-content">
     <nav>
-      <div class="dropdown left">
+      <div class="dropdown">
         <button class="dropbtn">My Gear</button>
         <div class="dropdown-content">
           <ul>
-            <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
-            <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
-            <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
-            <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
-            <li><strong>GPU:</strong> RTX 4070 Ti Super</li>
-            <li><strong>CPU:</strong> Intel i7-14700F</li>
-            <li><strong>RAM:</strong> 32GB DDR4</li>
+            <li>RTX 4070 Ti Super</li>
+            <li>Intel i7-14700F</li>
+            <li>32GB DDR4</li>
           </ul>
         </div>
       </div>
 
-      <div class="dropdown right">
+      <div class="dropdown">
         <button class="dropbtn">My Socials</button>
         <div class="dropdown-content">
           <ul>
-            <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
             <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
             <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
-            <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
-            <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
-            <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
-            <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank">Steam</a></li>
-            <li><a href="https://vk.com/id891960345" target="_blank">Vk</a></li>
-            <li><a href="https://x.com/baskalm0ment" target="_blank">X</a></li>
           </ul>
         </div>
       </div>
@@ -304,64 +231,46 @@
     const spotifySong = document.getElementById("spotify-song");
     const spotifyArtist = document.getElementById("spotify-artist");
 
+    function applyMarquee(element) {
+      const text = element.textContent;
+      element.classList.remove("marquee");
+      if (element.scrollWidth > element.clientWidth) {
+        element.classList.add("marquee");
+      }
+    }
+
     async function fetchDiscordActivity() {
       try {
         const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
         const data = await res.json();
         if (data.success) {
-          const presence = data.data;
-          const activities = presence.activities.filter(a => a.name !== "Custom Status");
-          const activity = activities[0];
-          const status = presence.discord_status;
+          const p = data.data;
+          const status = p.discord_status;
 
           discordStatus.className = "";
-          if (status === "online") {
-            discordStatus.textContent = "🟢 Online";
-            discordStatus.classList.add("online");
-          } else if (status === "idle") {
-            discordStatus.textContent = "🟡 Idle";
-            discordStatus.classList.add("idle");
-          } else if (status === "dnd") {
-            discordStatus.textContent = "🔴 Do Not Disturb";
-            discordStatus.classList.add("dnd");
-          } else {
-            discordStatus.textContent = "⚫ Offline";
-          }
+          if (status === "online") discordStatus.textContent = "🟢 Online", discordStatus.classList.add("online");
+          else if (status === "idle") discordStatus.textContent = "🟡 Idle", discordStatus.classList.add("idle");
+          else if (status === "dnd") discordStatus.textContent = "🔴 Do Not Disturb", discordStatus.classList.add("dnd");
+          else discordStatus.textContent = "⚫ Offline";
 
-          if (presence.listening_to_spotify) {
-            const s = presence.spotify;
+          if (p.listening_to_spotify) {
+            const s = p.spotify;
             spotifyActivity.style.display = "flex";
+            discordDetails.textContent = "🎧 Listening to Spotify";
             spotifyAlbum.src = s.album_art_url;
             spotifySong.textContent = s.song;
             spotifyArtist.textContent = s.artist;
-            discordDetails.textContent = "🎧 Listening to Spotify";
 
             requestAnimationFrame(() => {
-              if (spotifySong.scrollWidth > spotifySong.clientWidth) {
-                spotifySong.classList.add("scrolling");
-              } else {
-                spotifySong.classList.remove("scrolling");
-              }
-
-              if (spotifyArtist.scrollWidth > spotifyArtist.clientWidth) {
-                spotifyArtist.classList.add("scrolling");
-              } else {
-                spotifyArtist.classList.remove("scrolling");
-              }
+              applyMarquee(spotifySong);
+              applyMarquee(spotifyArtist);
             });
-
           } else {
             spotifyActivity.style.display = "none";
-            if (activity) {
-              discordDetails.textContent = `${activity.type === 0 ? "Playing" : ""} ${activity.name}`;
-            } else {
-              discordDetails.textContent = "No current activity";
-            }
+            discordDetails.textContent = "No current Spotify activity";
           }
-        } else {
-          discordStatus.textContent = "Error loading activity";
         }
-      } catch {
+      } catch (e) {
         discordStatus.textContent = "Error connecting to Discord";
       }
     }
