@@ -195,8 +195,7 @@
     .scrolling {
       display: inline-block;
       white-space: nowrap;
-      animation: scrollText 14s linear infinite;
-      padding-right: 60px;
+      animation: scrollText 16s linear infinite;
     }
 
     @keyframes scrollText {
@@ -338,8 +337,17 @@
             discordDetails.textContent = "🎧 Listening to Spotify";
 
             requestAnimationFrame(() => {
-              spotifySong.classList.toggle("scrolling", spotifySong.scrollWidth > spotifySong.clientWidth);
-              spotifyArtist.classList.toggle("scrolling", spotifyArtist.scrollWidth > spotifyArtist.clientWidth);
+              if (spotifySong.scrollWidth > spotifySong.clientWidth) {
+                spotifySong.classList.add("scrolling");
+              } else {
+                spotifySong.classList.remove("scrolling");
+              }
+
+              if (spotifyArtist.scrollWidth > spotifyArtist.clientWidth) {
+                spotifyArtist.classList.add("scrolling");
+              } else {
+                spotifyArtist.classList.remove("scrolling");
+              }
             });
 
           } else {
