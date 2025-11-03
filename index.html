@@ -185,6 +185,7 @@
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     }
 
+    /* ✅ Updated Marquee Animation */
     .scroll-container {
       overflow: hidden;
       white-space: nowrap;
@@ -196,13 +197,19 @@
       display: inline-block;
       white-space: nowrap;
       position: relative;
-      animation: spotifyMarquee 12s linear infinite;
+      animation: spotifyMarquee 15s linear infinite;
     }
 
     @keyframes spotifyMarquee {
-      0%, 10% { transform: translateX(0); }
-      45%, 55% { transform: translateX(-100%); }
-      90%, 100% { transform: translateX(0); }
+      0%, 10% {
+        transform: translateX(0);
+      }
+      45%, 55% {
+        transform: translateX(calc(-100% - 50px));
+      }
+      90%, 100% {
+        transform: translateX(0);
+      }
     }
 
     @media (max-width: 768px) {
@@ -279,6 +286,7 @@
     </nav>
   </div>
 
+  <!-- ✅ Updated Scrolling Script -->
   <script>
     const enterPage = document.getElementById("enter-page");
     const mainContent = document.getElementById("main-content");
@@ -329,18 +337,20 @@
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
 
-            // 🔥 Fix: Always check and restart scrolling
-            spotifySong.classList.remove("scroll-text");
-            spotifyArtist.classList.remove("scroll-text");
-            void spotifySong.offsetWidth; // Force reflow
-            void spotifyArtist.offsetWidth;
+            // 🔥 Proper scroll fix
+            [spotifySong, spotifyArtist].forEach(el => {
+              el.classList.remove("scroll-text");
+              el.parentElement.scrollLeft = 0;
+              void el.offsetWidth;
 
-            if (spotifySong.scrollWidth > spotifySong.parentElement.clientWidth) {
-              spotifySong.classList.add("scroll-text");
-            }
-            if (spotifyArtist.scrollWidth > spotifyArtist.parentElement.clientWidth) {
-              spotifyArtist.classList.add("scroll-text");
-            }
+              if (el.scrollWidth > el.parentElement.clientWidth) {
+                const duration = 10 + (el.scrollWidth / 100);
+                el.style.animation = `spotifyMarquee ${duration}s linear infinite`;
+                el.classList.add("scroll-text");
+              } else {
+                el.style.animation = "none";
+              }
+            });
           } else {
             spotifyActivity.style.display = "none";
             discordDetails.textContent = "No current activity";
