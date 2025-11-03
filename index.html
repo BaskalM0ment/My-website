@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -179,8 +179,9 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      width: 180px;
+      width: 200px;
       position: relative;
+      margin-left: 10px;
       mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     }
@@ -190,10 +191,9 @@
       white-space: nowrap;
       width: 100%;
       position: relative;
-      height: 20px; /* constrain vertically */
+      height: 20px;
     }
 
-    /* the moving element that will be animated via CSS using inline vars */
     .scroll-text {
       display: inline-block;
       white-space: nowrap;
@@ -201,20 +201,18 @@
       will-change: transform;
     }
 
-    /* default keyframes use CSS variable --tx (pixels) and timings via --dur */
     @keyframes spotifyMarquee {
       0%, 10% { transform: translateX(0); }
-      45%, 55% { transform: translateX(var(--tx)); } /* negative value, moved left */
+      45%, 55% { transform: translateX(var(--tx)); }
       90%, 100% { transform: translateX(0); }
     }
 
-    /* when class 'marquee' added we set animation using duration var */
     .marquee {
       animation-name: spotifyMarquee;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
       animation-fill-mode: forwards;
-      animation-duration: var(--dur, 12s);
+      animation-duration: var(--dur, 20s);
     }
 
     @media (max-width: 768px) {
@@ -291,7 +289,6 @@
     </nav>
   </div>
 
-  <!-- ✅ Updated Scrolling Script -->
   <script>
     const enterPage = document.getElementById("enter-page");
     const mainContent = document.getElementById("main-content");
@@ -312,35 +309,28 @@
     const spotifySong = document.getElementById("spotify-song");
     const spotifyArtist = document.getElementById("spotify-artist");
 
-    // Helper: set up marquee for an element inside its scroll-container
     function setupMarquee(el) {
-      // parent is scroll-container
       const parent = el.parentElement;
-      // reset
       el.classList.remove('marquee');
       el.style.removeProperty('--tx');
       el.style.removeProperty('--dur');
 
-      // small timeout to ensure layout updated
       requestAnimationFrame(() => {
         const textWidth = el.scrollWidth;
         const boxWidth = parent.clientWidth;
 
         if (textWidth > boxWidth + 2) {
-          // distance to move left (negative px)
-          const movePx = -(textWidth + 40); // extra padding for space
-          // duration: base + extra per pixel (makes longer text slower)
-          const base = 6; // seconds to show start + end pause
-          const pxPerSec = 120; // pixels per second scrolling speed
+          const movePx = -(textWidth + 40);
+          const pxPerSec = 60; // slower scrolling
+          const base = 6;
           const duration = Math.max(base, Math.ceil((Math.abs(movePx) / pxPerSec) + base));
-          // set CSS vars
+
           el.style.setProperty('--tx', movePx + 'px');
           el.style.setProperty('--dur', duration + 's');
-          // force reflow so animation restarts
+
           void el.offsetWidth;
           el.classList.add('marquee');
         } else {
-          // no scrolling needed
           el.classList.remove('marquee');
           el.style.animation = 'none';
         }
@@ -377,7 +367,6 @@
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
 
-            // ensure marquee setup for both (title & artist)
             setupMarquee(spotifySong);
             setupMarquee(spotifyArtist);
           } else {
@@ -387,16 +376,13 @@
         } else {
           discordStatus.textContent = "Error loading activity";
         }
-      } catch (e) {
+      } catch {
         discordStatus.textContent = "Error connecting to Discord";
       }
     }
 
-    // initial fetch + repeat
     fetchDiscordActivity();
     setInterval(fetchDiscordActivity, 15000);
-
-    // also re-run marquee when window resizes (so it restarts appropriately)
     window.addEventListener('resize', () => {
       [spotifySong, spotifyArtist].forEach(el => {
         if (el && el.parentElement) setupMarquee(el);
