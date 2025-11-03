@@ -179,9 +179,9 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      width: 200px;
+      width: 220px;
       position: relative;
-      margin-left: 10px; /* pushes text to the right */
+      margin-left: 14px; /* moved further right */
       mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
      }
@@ -192,7 +192,7 @@
       width: 100%;
       position: relative;
       height: 20px;
-      padding-left: 2px; /* adds small padding so text doesn't touch the edge */
+      padding-left: 2px;
     }
     
     .scroll-text {
@@ -202,18 +202,25 @@
       will-change: transform;
     }
 
+    /* Smooth Spotify-like scrolling */
     @keyframes spotifyMarquee {
-      0%, 10% { transform: translateX(0); }
-      45%, 55% { transform: translateX(var(--tx)); }
-      90%, 100% { transform: translateX(0); }
+      0%, 10% {
+        transform: translateX(0);
+      }
+      45%, 55% {
+        transform: translateX(var(--tx));
+      }
+      90%, 100% {
+        transform: translateX(0);
+      }
     }
 
     .marquee {
       animation-name: spotifyMarquee;
-      animation-timing-function: linear;
+      animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
       animation-fill-mode: forwards;
-      animation-duration: var(--dur, 20s);
+      animation-duration: var(--dur, 15s);
     }
 
     @media (max-width: 768px) {
@@ -310,30 +317,32 @@
     const spotifySong = document.getElementById("spotify-song");
     const spotifyArtist = document.getElementById("spotify-artist");
 
+    // 🟢 Smooth Spotify-like marquee
     function setupMarquee(el) {
       const parent = el.parentElement;
-      el.classList.remove('marquee');
-      el.style.removeProperty('--tx');
-      el.style.removeProperty('--dur');
+      el.classList.remove("marquee");
+      el.style.removeProperty("--tx");
+      el.style.removeProperty("--dur");
 
       requestAnimationFrame(() => {
         const textWidth = el.scrollWidth;
         const boxWidth = parent.clientWidth;
 
         if (textWidth > boxWidth + 2) {
-          const movePx = -(textWidth + 40);
-          const pxPerSec = 60; // slower scrolling
-          const base = 6;
-          const duration = Math.max(base, Math.ceil((Math.abs(movePx) / pxPerSec) + base));
+          const movePx = -(textWidth - boxWidth + 40);
+          const scrollSpeed = 45; // pixels per second
+          const scrollDuration = Math.abs(movePx) / scrollSpeed;
+          const pauseTime = 2; // seconds before and after
+          const totalDuration = scrollDuration + pauseTime * 2;
 
-          el.style.setProperty('--tx', movePx + 'px');
-          el.style.setProperty('--dur', duration + 's');
+          el.style.setProperty("--tx", movePx + "px");
+          el.style.setProperty("--dur", totalDuration + "s");
 
           void el.offsetWidth;
-          el.classList.add('marquee');
+          el.classList.add("marquee");
         } else {
-          el.classList.remove('marquee');
-          el.style.animation = 'none';
+          el.classList.remove("marquee");
+          el.style.animation = "none";
         }
       });
     }
@@ -384,12 +393,11 @@
 
     fetchDiscordActivity();
     setInterval(fetchDiscordActivity, 15000);
-    window.addEventListener('resize', () => {
-      [spotifySong, spotifyArtist].forEach(el => {
+    window.addEventListener("resize", () => {
+      [spotifySong, spotifyArtist].forEach((el) => {
         if (el && el.parentElement) setupMarquee(el);
       });
     });
   </script>
 </body>
 </html>
-
