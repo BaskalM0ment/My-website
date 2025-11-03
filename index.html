@@ -181,10 +181,10 @@
       overflow: hidden;
       width: 200px;
       position: relative;
-      margin-left: 10px;
+      margin-left: 10px; /* pushes text to the right */
       mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-    }
+     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+     }
 
     .scroll-container {
       overflow: hidden;
@@ -192,8 +192,9 @@
       width: 100%;
       position: relative;
       height: 20px;
+      padding-left: 2px; /* adds small padding so text doesn't touch the edge */
     }
-
+    
     .scroll-text {
       display: inline-block;
       white-space: nowrap;
@@ -391,3 +392,4 @@
   </script>
 </body>
 </html>
+
