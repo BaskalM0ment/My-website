@@ -200,9 +200,9 @@
     }
 
     @keyframes spotifyMarquee {
-      0%, 15% { transform: translateX(0); }
+      0%, 10% { transform: translateX(0); }
       45%, 55% { transform: translateX(-100%); }
-      85%, 100% { transform: translateX(0); }
+      90%, 100% { transform: translateX(0); }
     }
 
     @media (max-width: 768px) {
@@ -329,15 +329,18 @@
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
 
+            // 🔥 Fix: Always check and restart scrolling
             spotifySong.classList.remove("scroll-text");
             spotifyArtist.classList.remove("scroll-text");
+            void spotifySong.offsetWidth; // Force reflow
+            void spotifyArtist.offsetWidth;
 
-            requestAnimationFrame(() => {
-              if (spotifySong.scrollWidth > spotifySong.parentElement.clientWidth)
-                spotifySong.classList.add("scroll-text");
-              if (spotifyArtist.scrollWidth > spotifyArtist.parentElement.clientWidth)
-                spotifyArtist.classList.add("scroll-text");
-            });
+            if (spotifySong.scrollWidth > spotifySong.parentElement.clientWidth) {
+              spotifySong.classList.add("scroll-text");
+            }
+            if (spotifyArtist.scrollWidth > spotifyArtist.parentElement.clientWidth) {
+              spotifyArtist.classList.add("scroll-text");
+            }
           } else {
             spotifyActivity.style.display = "none";
             discordDetails.textContent = "No current activity";
