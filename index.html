@@ -185,31 +185,36 @@
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     }
 
-    /* ✅ Updated Marquee Animation */
     .scroll-container {
       overflow: hidden;
       white-space: nowrap;
       width: 100%;
       position: relative;
+      height: 20px; /* constrain vertically */
     }
 
+    /* the moving element that will be animated via CSS using inline vars */
     .scroll-text {
       display: inline-block;
       white-space: nowrap;
       position: relative;
-      animation: spotifyMarquee 15s linear infinite;
+      will-change: transform;
     }
 
+    /* default keyframes use CSS variable --tx (pixels) and timings via --dur */
     @keyframes spotifyMarquee {
-      0%, 10% {
-        transform: translateX(0);
-      }
-      45%, 55% {
-        transform: translateX(calc(-100% - 50px));
-      }
-      90%, 100% {
-        transform: translateX(0);
-      }
+      0%, 10% { transform: translateX(0); }
+      45%, 55% { transform: translateX(var(--tx)); } /* negative value, moved left */
+      90%, 100% { transform: translateX(0); }
+    }
+
+    /* when class 'marquee' added we set animation using duration var */
+    .marquee {
+      animation-name: spotifyMarquee;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+      animation-duration: var(--dur, 12s);
     }
 
     @media (max-width: 768px) {
@@ -244,8 +249,8 @@
     <div id="spotify-activity">
       <img id="spotify-album" src="" alt="Album Cover" />
       <div class="song-info">
-        <div class="scroll-container"><span id="spotify-song"></span></div>
-        <div class="scroll-container"><span id="spotify-artist"></span></div>
+        <div class="scroll-container"><span id="spotify-song" class="scroll-text"></span></div>
+        <div class="scroll-container"><span id="spotify-artist" class="scroll-text"></span></div>
       </div>
     </div>
   </div>
@@ -307,6 +312,41 @@
     const spotifySong = document.getElementById("spotify-song");
     const spotifyArtist = document.getElementById("spotify-artist");
 
+    // Helper: set up marquee for an element inside its scroll-container
+    function setupMarquee(el) {
+      // parent is scroll-container
+      const parent = el.parentElement;
+      // reset
+      el.classList.remove('marquee');
+      el.style.removeProperty('--tx');
+      el.style.removeProperty('--dur');
+
+      // small timeout to ensure layout updated
+      requestAnimationFrame(() => {
+        const textWidth = el.scrollWidth;
+        const boxWidth = parent.clientWidth;
+
+        if (textWidth > boxWidth + 2) {
+          // distance to move left (negative px)
+          const movePx = -(textWidth + 40); // extra padding for space
+          // duration: base + extra per pixel (makes longer text slower)
+          const base = 6; // seconds to show start + end pause
+          const pxPerSec = 120; // pixels per second scrolling speed
+          const duration = Math.max(base, Math.ceil((Math.abs(movePx) / pxPerSec) + base));
+          // set CSS vars
+          el.style.setProperty('--tx', movePx + 'px');
+          el.style.setProperty('--dur', duration + 's');
+          // force reflow so animation restarts
+          void el.offsetWidth;
+          el.classList.add('marquee');
+        } else {
+          // no scrolling needed
+          el.classList.remove('marquee');
+          el.style.animation = 'none';
+        }
+      });
+    }
+
     async function fetchDiscordActivity() {
       try {
         const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
@@ -337,20 +377,9 @@
             spotifyArtist.textContent = s.artist;
             discordDetails.textContent = "🎧 Listening to Spotify";
 
-            // 🔥 Proper scroll fix
-            [spotifySong, spotifyArtist].forEach(el => {
-              el.classList.remove("scroll-text");
-              el.parentElement.scrollLeft = 0;
-              void el.offsetWidth;
-
-              if (el.scrollWidth > el.parentElement.clientWidth) {
-                const duration = 10 + (el.scrollWidth / 100);
-                el.style.animation = `spotifyMarquee ${duration}s linear infinite`;
-                el.classList.add("scroll-text");
-              } else {
-                el.style.animation = "none";
-              }
-            });
+            // ensure marquee setup for both (title & artist)
+            setupMarquee(spotifySong);
+            setupMarquee(spotifyArtist);
           } else {
             spotifyActivity.style.display = "none";
             discordDetails.textContent = "No current activity";
@@ -358,13 +387,21 @@
         } else {
           discordStatus.textContent = "Error loading activity";
         }
-      } catch {
+      } catch (e) {
         discordStatus.textContent = "Error connecting to Discord";
       }
     }
 
+    // initial fetch + repeat
     fetchDiscordActivity();
     setInterval(fetchDiscordActivity, 15000);
+
+    // also re-run marquee when window resizes (so it restarts appropriately)
+    window.addEventListener('resize', () => {
+      [spotifySong, spotifyArtist].forEach(el => {
+        if (el && el.parentElement) setupMarquee(el);
+      });
+    });
   </script>
 </body>
 </html>
