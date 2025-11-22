@@ -442,38 +442,39 @@
             });
         });
     <script>
-const text = "bASKALmOMENT";
-let i = 0;
-let direction = 1; // 1 = adding letters, -1 = removing letters
+document.addEventListener("DOMContentLoaded", () => {
+    const text = "bASKALmOMENT";
+    let index = 0;
+    let direction = 1; // 1 = typing forward, -1 = deleting backward
 
-function animateTitle() {
-    if (direction === 1) {
-        // Adding letters
-        i++;
-        if (i > text.length) {
-            direction = -1;
-            i = text.length;
-            setTimeout(animateTitle, 1000); // pause before removing
-            return;
+    function animateTitle() {
+        if (direction === 1) {
+            index++;
+            if (index > text.length) {
+                direction = -1;
+                index = text.length;
+                setTimeout(animateTitle, 1000); // pause when full
+                return;
+            }
+        } else {
+            index--;
+            if (index < 0) {
+                direction = 1;
+                index = 0;
+                setTimeout(animateTitle, 600); // pause when empty
+                return;
+            }
         }
-    } else {
-        // Removing letters
-        i--;
-        if (i < 0) {
-            direction = 1;
-            i = 0;
-            setTimeout(animateTitle, 500); // pause before next loop
-            return;
-        }
+
+        document.title = text.substring(0, index);
+        setTimeout(animateTitle, 150); // animation speed
     }
 
-    document.title = text.substring(0, i);
-    setTimeout(animateTitle, 150); // animation speed
-}
-
-animateTitle();
+    animateTitle();
+});
 </script>
 
 </body>
 </html>
+
 
