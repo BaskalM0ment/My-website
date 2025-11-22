@@ -338,114 +338,118 @@
     </div>
 
     <script>
-        const enterPage = document.getElementById("enter-page");
-        const mainContent = document.getElementById("main-content");
-        const enterButton = document.getElementById("enter-button");
+    const enterPage = document.getElementById("enter-page");
+    const mainContent = document.getElementById("main-content");
+    const enterButton = document.getElementById("enter-button");
 
-        enterButton.addEventListener("click", () => {
-            enterPage.style.opacity = "0";
-            setTimeout(() => {
-                enterPage.style.display = "none";
-                mainContent.style.display = "flex";
-            }, 800);
-        });
+    enterButton.addEventListener("click", () => {
+        enterPage.style.opacity = "0";
+        setTimeout(() => {
+            enterPage.style.display = "none";
+            mainContent.style.display = "flex";
+        }, 800);
+    });
 
-        const discordStatus = document.getElementById("discord-status");
-        const discordDetails = document.getElementById("discord-details");
-        const spotifyActivity = document.getElementById("spotify-activity");
-        const spotifyAlbum = document.getElementById("spotify-album");
-        const spotifySong = document.getElementById("spotify-song");
-        const spotifyArtist = document.getElementById("spotify-artist");
+    const discordStatus = document.getElementById("discord-status");
+    const discordDetails = document.getElementById("discord-details");
+    const spotifyActivity = document.getElementById("spotify-activity");
+    const spotifyAlbum = document.getElementById("spotify-album");
+    const spotifySong = document.getElementById("spotify-song");
+    const spotifyArtist = document.getElementById("spotify-artist");
 
-        function setupMarquee(el) {
-            const parent = el.parentElement;
+    function setupMarquee(el) {
+        const parent = el.parentElement;
 
-            el.classList.remove("marquee");
-            el.style.removeProperty("--tx");
-            el.style.removeProperty("--dur");
+        el.classList.remove("marquee");
+        el.style.removeProperty("--tx");
+        el.style.removeProperty("--dur");
 
-            requestAnimationFrame(() => {
-                const textWidth = el.scrollWidth;
-                const boxWidth = parent.clientWidth;
+        requestAnimationFrame(() => {
+            const textWidth = el.scrollWidth;
+            const boxWidth = parent.clientWidth;
 
-                if (textWidth > boxWidth + 2) {
-                    const movePx = -(textWidth - boxWidth + 40);
-                    const scrollSpeed = 45;
-                    const scrollDuration = Math.abs(movePx) / scrollSpeed;
-                    const pauseTime = 2;
-                    const totalDuration = scrollDuration + pauseTime * 2;
+            if (textWidth > boxWidth + 2) {
+                const movePx = -(textWidth - boxWidth + 40);
+                const scrollSpeed = 45;
+                const scrollDuration = Math.abs(movePx) / scrollSpeed;
+                const pauseTime = 2;
+                const totalDuration = scrollDuration + pauseTime * 2;
 
-                    el.style.setProperty("--tx", movePx + "px");
-                    el.style.setProperty("--dur", totalDuration + "s");
-                    void el.offsetWidth;
-                    el.classList.add("marquee");
-                } else {
-                    el.classList.remove("marquee");
-                    el.style.animation = "none";
-                }
-            });
-        }
+                el.style.setProperty("--tx", movePx + "px");
+                el.style.setProperty("--dur", totalDuration + "s");
 
-        async function fetchDiscordActivity() {
-            try {
-                const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
-                const data = await res.json();
-
-                if (data.success) {
-                    const presence = data.data;
-                    const status = presence.discord_status;
-
-                    discordStatus.className = "";
-
-                    if (status === "online") {
-                        discordStatus.textContent = "🟢 Online";
-                        discordStatus.classList.add("online");
-                    } else if (status === "idle") {
-                        discordStatus.textContent = "🟡 Idle";
-                        discordStatus.classList.add("idle");
-                    } else if (status === "dnd") {
-                        discordStatus.textContent = "🔴 Do Not Disturb";
-                        discordStatus.classList.add("dnd");
-                    } else {
-                        discordStatus.textContent = "⚫ Offline";
-                    }
-
-                    if (presence.listening_to_spotify) {
-                        const s = presence.spotify;
-
-                        spotifyActivity.style.display = "flex";
-                        spotifyAlbum.src = s.album_art_url;
-                        spotifySong.textContent = s.song;
-                        spotifyArtist.textContent = s.artist;
-                        discordDetails.textContent = "🎧 Listening to Spotify";
-
-                        setupMarquee(spotifySong);
-                        setupMarquee(spotifyArtist);
-                    } else {
-                        spotifyActivity.style.display = "none";
-                        discordDetails.textContent = "No current activity";
-                    }
-                } else {
-                    discordStatus.textContent = "Error loading activity";
-                }
-            } catch {
-                discordStatus.textContent = "Error connecting to Discord";
+                void el.offsetWidth;
+                el.classList.add("marquee");
+            } else {
+                el.classList.remove("marquee");
+                el.style.animation = "none";
             }
-        }
-
-        fetchDiscordActivity();
-        setInterval(fetchDiscordActivity, 15000);
-
-        window.addEventListener("resize", () => {
-            [spotifySong, spotifyArtist].forEach((el) => {
-                if (el && el.parentElement) setupMarquee(el);
-            });
         });
-    <script>
+    }
+
+    async function fetchDiscordActivity() {
+        try {
+            const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
+            const data = await res.json();
+
+            if (data.success) {
+                const presence = data.data;
+                const status = presence.discord_status;
+
+                discordStatus.className = "";
+
+                if (status === "online") {
+                    discordStatus.textContent = "🟢 Online";
+                    discordStatus.classList.add("online");
+                } else if (status === "idle") {
+                    discordStatus.textContent = "🟡 Idle";
+                    discordStatus.classList.add("idle");
+                } else if (status === "dnd") {
+                    discordStatus.textContent = "🔴 Do Not Disturb";
+                    discordStatus.classList.add("dnd");
+                } else {
+                    discordStatus.textContent = "⚫ Offline";
+                }
+
+                if (presence.listening_to_spotify) {
+                    const s = presence.spotify;
+
+                    spotifyActivity.style.display = "flex";
+                    spotifyAlbum.src = s.album_art_url;
+                    spotifySong.textContent = s.song;
+                    spotifyArtist.textContent = s.artist;
+                    discordDetails.textContent = "🎧 Listening to Spotify";
+
+                    setupMarquee(spotifySong);
+                    setupMarquee(spotifyArtist);
+                } else {
+                    spotifyActivity.style.display = "none";
+                    discordDetails.textContent = "No current activity";
+                }
+            } else {
+                discordStatus.textContent = "Error loading activity";
+            }
+        } catch {
+            discordStatus.textContent = "Error connecting to Discord";
+        }
+    }
+
+    fetchDiscordActivity();
+    setInterval(fetchDiscordActivity, 15000);
+
+    window.addEventListener("resize", () => {
+        [spotifySong, spotifyArtist].forEach((el) => {
+            if (el && el.parentElement) setupMarquee(el);
+        });
+    });
+</script>
+
+<!-- TITLE ANIMATION FIXED + SAFE -->
+<script>
 document.addEventListener("DOMContentLoaded", () => {
     const text = "bASKALmOMENT";
     let index = 0;
-    let direction = 1; // 1 = typing forward, -1 = deleting backward
+    let direction = 1;
 
     function animateTitle() {
         if (direction === 1) {
@@ -453,7 +457,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (index > text.length) {
                 direction = -1;
                 index = text.length;
-                setTimeout(animateTitle, 1000); // pause when full
+                setTimeout(animateTitle, 1000);
                 return;
             }
         } else {
@@ -461,13 +465,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (index < 0) {
                 direction = 1;
                 index = 0;
-                setTimeout(animateTitle, 600); // pause when empty
+                setTimeout(animateTitle, 600);
                 return;
             }
         }
 
         document.title = text.substring(0, index);
-        setTimeout(animateTitle, 150); // animation speed
+        setTimeout(animateTitle, 150);
     }
 
     animateTitle();
@@ -476,5 +480,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
 
