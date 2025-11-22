@@ -419,35 +419,34 @@
             });
         });
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    const titleText = "bASKALmOMENT";
+document.addEventListener("DOMContentLoaded", () => {
+    const text = "bASKALmOMENT";
     let index = 0;
     let adding = true;
 
     function animateTitle() {
         if (adding) {
-            // Add letters one by one
-            document.title = titleText.substring(0, index + 1);
             index++;
-
-            if (index === titleText.length) {
+            if (index >= text.length) {
+                index = text.length;
                 adding = false;
-                setTimeout(animateTitle, 800); // small pause at full title
+                setTimeout(animateTitle, 900);
+                document.title = text.substring(0, index);
                 return;
             }
         } else {
-            // Remove letters one by one
-            document.title = titleText.substring(0, index - 1);
             index--;
-
-            if (index === 0) {
+            if (index <= 0) {
+                index = 0;
                 adding = true;
-                setTimeout(animateTitle, 800); // small pause when empty
+                setTimeout(animateTitle, 900);
+                document.title = text.substring(0, index);
                 return;
             }
         }
 
-        setTimeout(animateTitle, 150); // animation speed (lower = slower)
+        document.title = text.substring(0, index);
+        setTimeout(animateTitle, 180); 
     }
 
     animateTitle();
@@ -456,5 +455,6 @@
 
 </body>
 </html>
+
 
 
