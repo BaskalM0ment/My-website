@@ -442,9 +442,6 @@
             if (el && el.parentElement) setupMarquee(el);
         });
     });
-</script>
-
-<!-- TITLE ANIMATION FIXED + SAFE -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const text = "bASKALmOMENT";
@@ -453,25 +450,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function animateTitle() {
         if (direction === 1) {
+            // typing forward ONE letter at a time
             index++;
             if (index > text.length) {
-                direction = -1;
                 index = text.length;
-                setTimeout(animateTitle, 1000);
+                direction = -1;
+                setTimeout(animateTitle, 800); // pause when fully typed
                 return;
             }
         } else {
+            // deleting backward ONE letter at a time
             index--;
             if (index < 0) {
-                direction = 1;
                 index = 0;
-                setTimeout(animateTitle, 600);
+                direction = 1;
+                setTimeout(animateTitle, 800); // pause when empty
                 return;
             }
         }
 
         document.title = text.substring(0, index);
-        setTimeout(animateTitle, 150);
+        setTimeout(animateTitle, 180); // slower, smoother speed
     }
 
     animateTitle();
@@ -480,4 +479,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
