@@ -441,7 +441,39 @@
                 if (el && el.parentElement) setupMarquee(el);
             });
         });
-    </script>
+    <script>
+const text = "bASKALmOMENT";
+let i = 0;
+let direction = 1; // 1 = adding letters, -1 = removing letters
+
+function animateTitle() {
+    if (direction === 1) {
+        // Adding letters
+        i++;
+        if (i > text.length) {
+            direction = -1;
+            i = text.length;
+            setTimeout(animateTitle, 1000); // pause before removing
+            return;
+        }
+    } else {
+        // Removing letters
+        i--;
+        if (i < 0) {
+            direction = 1;
+            i = 0;
+            setTimeout(animateTitle, 500); // pause before next loop
+            return;
+        }
+    }
+
+    document.title = text.substring(0, i);
+    setTimeout(animateTitle, 150); // animation speed
+}
+
+animateTitle();
+</script>
 
 </body>
 </html>
+
