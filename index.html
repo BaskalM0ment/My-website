@@ -103,14 +103,15 @@
             color: white;
         }
 
+        /* FIXED DROPDOWN CONTENT */
         .dropdown-content {
             visibility: hidden;
             opacity: 0;
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 0;
+            transform: translateY(0);
             margin: 0;
-            padding: 0;
+            padding: 10px 0;
             font-size: 18px;
             color: white;
             min-width: 200px;
@@ -300,7 +301,7 @@
                     <ul>
                         <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
                         <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
-                        <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
+                        <li><a href="https://www.youtube.com/@Baskalm0moment" target="_blank">YouTube</a></li>
                         <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
                         <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
                         <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
@@ -427,14 +428,13 @@
         let index = 0;
         let adding = true;
 
-        // use a single timer controlled function to ensure one-letter steps and smooth timing
         let timer = null;
-        const stepDelay = 220;   // ms between each letter step
-        const pauseDelay = 900;  // ms pause when full/empty
+        const stepDelay = 220;
+        const pauseDelay = 900;
 
-        function schedule(nextDelay) {
+        function schedule(delay) {
             if (timer) clearTimeout(timer);
-            timer = setTimeout(step, nextDelay);
+            timer = setTimeout(step, delay);
         }
 
         function step() {
@@ -458,12 +458,10 @@
                 }
             }
 
-            // update title with exactly one-letter change per step
             document.title = text.substring(0, index);
             schedule(stepDelay);
         }
 
-        // start after small initial delay to avoid conflict with other scripts
         schedule(300);
     });
     </script>
