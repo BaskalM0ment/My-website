@@ -418,44 +418,55 @@
                 if (el && el.parentElement) setupMarquee(el);
             });
         });
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const text = "bASKALmOMENT";
-    let index = 0;
-    let adding = true;
+    </script>
 
-    function animateTitle() {
-        if (adding) {
-            index++;
-            if (index >= text.length) {
-                index = text.length;
-                adding = false;
-                setTimeout(animateTitle, 900);
-                document.title = text.substring(0, index);
-                return;
-            }
-        } else {
-            index--;
-            if (index <= 0) {
-                index = 0;
-                adding = true;
-                setTimeout(animateTitle, 900);
-                document.title = text.substring(0, index);
-                return;
-            }
+    <!-- TITLE ANIMATION SCRIPT -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const text = "bASKALmOMENT";
+        let index = 0;
+        let adding = true;
+
+        // use a single timer controlled function to ensure one-letter steps and smooth timing
+        let timer = null;
+        const stepDelay = 220;   // ms between each letter step
+        const pauseDelay = 900;  // ms pause when full/empty
+
+        function schedule(nextDelay) {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(step, nextDelay);
         }
 
-        document.title = text.substring(0, index);
-        setTimeout(animateTitle, 180); 
-    }
+        function step() {
+            if (adding) {
+                index++;
+                if (index >= text.length) {
+                    index = text.length;
+                    document.title = text.substring(0, index);
+                    adding = false;
+                    schedule(pauseDelay);
+                    return;
+                }
+            } else {
+                index--;
+                if (index <= 0) {
+                    index = 0;
+                    document.title = "";
+                    adding = true;
+                    schedule(pauseDelay);
+                    return;
+                }
+            }
 
-    animateTitle();
-});
-</script>
+            // update title with exactly one-letter change per step
+            document.title = text.substring(0, index);
+            schedule(stepDelay);
+        }
+
+        // start after small initial delay to avoid conflict with other scripts
+        schedule(300);
+    });
+    </script>
 
 </body>
 </html>
-
-
-
-
