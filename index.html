@@ -81,9 +81,12 @@
             flex: 1;
         }
 
+        /* FIXED DROPDOWNS */
         .dropdown {
             position: relative;
-            width: max-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;  /* center dropdown horizontally */
         }
 
         .dropbtn {
@@ -103,38 +106,29 @@
             color: white;
         }
 
-        /* FIXED DROPDOWN CONTENT */
+        /* FIXED: dropdown no longer disappears */
         .dropdown-content {
             visibility: hidden;
             opacity: 0;
+            pointer-events: none;
             position: absolute;
-            top: 0;
-            transform: translateY(0);
-            margin: 0;
-            padding: 10px 0;
+            top: 100%;              /* BELOW button */
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px;
+
+            transition: opacity 0.25s ease;
             font-size: 18px;
             color: white;
             min-width: 200px;
             max-width: 40vw;
-            background: none;
-            border: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .dropdown.left .dropdown-content {
-            right: 100%;
-            margin-right: 15px;
-        }
-
-        .dropdown.right .dropdown-content {
-            left: 100%;
-            margin-left: 15px;
         }
 
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
             visibility: visible;
             opacity: 1;
+            pointer-events: auto;
         }
 
         .dropdown-content ul {
@@ -173,29 +167,14 @@
             min-width: 260px;
         }
 
-        #discord-activity strong {
-            font-size: 18px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #ccc;
-        }
-
         #discord-status {
             margin-top: 4px;
             font-weight: 600;
         }
 
-        #discord-status.online {
-            color: #43b581;
-        }
-
-        #discord-status.idle {
-            color: #faa61a;
-        }
-
-        #discord-status.dnd {
-            color: #f04747;
-        }
+        #discord-status.online { color: #43b581; }
+        #discord-status.idle { color: #faa61a; }
+        #discord-status.dnd { color: #f04747; }
 
         #spotify-activity {
             margin-top: 10px;
@@ -280,7 +259,7 @@
 
     <div id="main-content">
         <nav>
-            <div class="dropdown left">
+            <div class="dropdown">
                 <button class="dropbtn">My Gear</button>
                 <div class="dropdown-content">
                     <ul>
@@ -295,13 +274,13 @@
                 </div>
             </div>
 
-            <div class="dropdown right">
+            <div class="dropdown">
                 <button class="dropbtn">My Socials</button>
                 <div class="dropdown-content">
                     <ul>
                         <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
                         <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
-                        <li><a href="https://www.youtube.com/@Baskalm0moment" target="_blank">YouTube</a></li>
+                        <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
                         <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
                         <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
                         <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
@@ -432,9 +411,9 @@
         const stepDelay = 220;
         const pauseDelay = 900;
 
-        function schedule(delay) {
+        function schedule(nextDelay) {
             if (timer) clearTimeout(timer);
-            timer = setTimeout(step, delay);
+            timer = setTimeout(step, nextDelay);
         }
 
         function step() {
