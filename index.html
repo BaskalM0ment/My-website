@@ -81,12 +81,10 @@
             flex: 1;
         }
 
-        /* FIXED DROPDOWNS */
+        /* dropdown container */
         .dropdown {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;  /* center dropdown horizontally */
+            width: max-content;
         }
 
         .dropbtn {
@@ -106,24 +104,45 @@
             color: white;
         }
 
-        /* FIXED: dropdown no longer disappears */
+        /*
+          Dropdown content:
+          - initially hidden (visibility + opacity)
+          - use pointer-events to prevent accidental mouse capture when hidden
+          - positioned vertically centered relative to button (top:50% translateY(-50%))
+          - left/right positioning for left/right dropdowns handled below
+        */
         .dropdown-content {
             visibility: hidden;
             opacity: 0;
             pointer-events: none;
             position: absolute;
-            top: 100%;              /* BELOW button */
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 10px;
-
-            transition: opacity 0.25s ease;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            padding: 0;
             font-size: 18px;
             color: white;
             min-width: 200px;
             max-width: 40vw;
+            background: none;
+            border: none;
+            transition: opacity 0.2s ease, visibility 0.2s;
+            z-index: 999;
         }
 
+        /* left dropdown should pop out to the left of the button */
+        .dropdown.left .dropdown-content {
+            right: calc(100% + 15px);
+            left: auto;
+        }
+
+        /* right dropdown should pop out to the right of the button */
+        .dropdown.right .dropdown-content {
+            left: calc(100% + 15px);
+            right: auto;
+        }
+
+        /* Keep dropdown visible when hovering either the button or the content */
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
             visibility: visible;
@@ -167,14 +186,29 @@
             min-width: 260px;
         }
 
+        #discord-activity strong {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ccc;
+        }
+
         #discord-status {
             margin-top: 4px;
             font-weight: 600;
         }
 
-        #discord-status.online { color: #43b581; }
-        #discord-status.idle { color: #faa61a; }
-        #discord-status.dnd { color: #f04747; }
+        #discord-status.online {
+            color: #43b581;
+        }
+
+        #discord-status.idle {
+            color: #faa61a;
+        }
+
+        #discord-status.dnd {
+            color: #f04747;
+        }
 
         #spotify-activity {
             margin-top: 10px;
@@ -259,7 +293,7 @@
 
     <div id="main-content">
         <nav>
-            <div class="dropdown">
+            <div class="dropdown left">
                 <button class="dropbtn">My Gear</button>
                 <div class="dropdown-content">
                     <ul>
@@ -274,7 +308,7 @@
                 </div>
             </div>
 
-            <div class="dropdown">
+            <div class="dropdown right">
                 <button class="dropbtn">My Socials</button>
                 <div class="dropdown-content">
                     <ul>
