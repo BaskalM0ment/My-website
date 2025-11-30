@@ -63,7 +63,6 @@
             transform: scale(1.05);
         }
 
-
         /* ------------------------------ */
         /*           NAVIGATION           */
         /* ------------------------------ */
@@ -129,6 +128,27 @@
             margin-left: 20px;
         }
 
+        /* INVISIBLE BUFFER FIX */
+        .dropdown:hover::before,
+        .dropdown:hover::after {
+            content: "";
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -20px;
+            bottom: -20px;
+        }
+
+        .dropdown-content:hover::before,
+        .dropdown-content:hover::after {
+            content: "";
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -20px;
+            bottom: -20px;
+        }
+
         /* KEEP DROPDOWN OPEN WHILE USING THE WINDOW */
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
@@ -156,7 +176,6 @@
         .dropdown-content a:hover {
             text-decoration: underline;
         }
-
 
         /* ------------------------------ */
         /*      DISCORD / ACTIVITY UI     */
@@ -227,6 +246,17 @@
             position: relative;
             will-change: transform;
         }
+
+        .marquee {
+            animation: scroll var(--dur) linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            10% { transform: translateX(0); }
+            90% { transform: translateX(var(--tx)); }
+            100% { transform: translateX(var(--tx)); }
+        }
     </style>
 </head>
 
@@ -290,7 +320,6 @@
         </nav>
     </div>
 
-
     <!-- ENTER BUTTON SCRIPT -->
     <script>
         const enterPage = document.getElementById("enter-page");
@@ -305,7 +334,6 @@
             }, 800);
         });
     </script>
-
 
     <!-- DISCORD + SPOTIFY SCRIPT -->
     <script>
@@ -401,7 +429,6 @@
         });
     </script>
 
-
     <!-- TITLE ANIMATION SCRIPT -->
     <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -444,6 +471,35 @@
         }
 
         schedule(300);
+    });
+    </script>
+
+    <!-- DROPDOWN HOVER STABILITY SCRIPT -->
+    <script>
+    document.querySelectorAll(".dropdown").forEach(drop => {
+        const content = drop.querySelector(".dropdown-content");
+
+        drop.addEventListener("mouseenter", () => {
+            content.style.visibility = "visible";
+            content.style.opacity = "1";
+            content.style.pointerEvents = "auto";
+        });
+
+        drop.addEventListener("mouseleave", () => {
+            setTimeout(() => {
+                if (!content.matches(":hover") && !drop.matches(":hover")) {
+                    content.style.opacity = "0";
+                    content.style.visibility = "hidden";
+                    content.style.pointerEvents = "none";
+                }
+            }, 120);
+        });
+
+        content.addEventListener("mouseleave", () => {
+            content.style.opacity = "0";
+            content.style.visibility = "hidden";
+            content.style.pointerEvents = "none";
+        });
     });
     </script>
 
