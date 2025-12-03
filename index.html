@@ -63,6 +63,7 @@
             transform: scale(1.05);
         }
 
+        /* NAVIGATION */
         nav {
             display: flex;
             flex-direction: row;
@@ -87,6 +88,7 @@
             padding: 15px 30px;
             width: 250px;
             font-weight: 600;
+            transition: color 0.3s ease;
             text-align: center;
         }
 
@@ -100,7 +102,8 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            padding: 10px 20px;
+            margin: 0;
+            padding: 20px;
             font-size: 18px;
             color: white;
             min-width: 200px;
@@ -122,11 +125,7 @@
             margin-left: 20px;
         }
 
-        .dropdown-content {
-    padding: 20px; /* adds hover buffer inside window */
-
-        }
-
+        /* Keep dropdown open */
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
             visibility: visible;
@@ -154,23 +153,37 @@
             text-decoration: underline;
         }
 
+        /* DISCORD UI */
         #discord-activity {
             position: fixed;
             top: 20px;
             left: 30px;
             font-size: 16px;
             font-weight: 500;
+            color: white;
             background: rgba(0, 0, 0, 0.4);
             padding: 10px 16px;
             border-radius: 10px;
             backdrop-filter: blur(6px);
             z-index: 20;
+            line-height: 1.6em;
             min-width: 260px;
         }
 
-        #discord-status.online { color: #43b581; }
-        #discord-status.idle { color: #faa61a; }
-        #discord-status.dnd { color: #f04747; }
+        #discord-status {
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        #discord-status.online {
+            color: #43b581;
+        }
+        #discord-status.idle {
+            color: #faa61a;
+        }
+        #discord-status.dnd {
+            color: #f04747;
+        }
 
         #spotify-activity {
             margin-top: 10px;
@@ -187,21 +200,30 @@
         }
 
         .song-info {
-            width: 220px;
-            margin-left: 14px;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
+            width: 220px;
+            position: relative;
+            margin-left: 14px;
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
         }
 
         .scroll-container {
             overflow: hidden;
             white-space: nowrap;
             width: 100%;
+            position: relative;
             height: 20px;
+            padding-left: 2px;
         }
 
         .scroll-text {
             display: inline-block;
             white-space: nowrap;
+            position: relative;
+            will-change: transform;
         }
 
         .marquee {
@@ -209,147 +231,254 @@
         }
 
         @keyframes scroll {
-            0%,10% { transform: translateX(0); }
-            90%,100% { transform: translateX(var(--tx)); }
+            0% { transform: translateX(0); }
+            10% { transform: translateX(0); }
+            90% { transform: translateX(var(--tx)); }
+            100% { transform: translateX(var(--tx)); }
         }
     </style>
 </head>
 
 <body>
 
-<video id="background-video" autoplay muted loop playsinline>
-    <source src="https://github.com/BaskalM0ment/My-website/releases/download/v1.0/YTDown.com_YouTube_Ken-Carson-Jennifer-s-Body-Official-Musi_Media_CSMiPngo4uE_001_1080p.online-video-cutter.com.1.mp4" type="video/mp4">
-</video>
+    <video id="background-video" autoplay muted loop playsinline>
+        <source src="https://github.com/Baskalm0ment/My-website/releases/download/v1.0/YTDown.com_YouTube_Ken-Carson-Jennifer-s-Body-Official-Musi_Media_CSMiPngo4uE_001_1080p.online-video-cutter.com.1.mp4" type="video/mp4">
+    </video>
 
-<div id="enter-page">
-    <button id="enter-button">ENTER SITE</button>
-</div>
+    <div id="enter-page">
+        <button id="enter-button">ENTER SITE</button>
+    </div>
 
-<div id="discord-activity">
-    <strong>Discord Activity</strong><br>
-    <div id="discord-status">Loading...</div>
-    <div id="discord-details"></div>
+    <div id="discord-activity">
+        <strong>Discord Activity</strong><br>
+        <div id="discord-status">Loading...</div>
+        <div id="discord-details"></div>
 
-    <div id="spotify-activity">
-        <img id="spotify-album">
-        <div class="song-info">
-            <div class="scroll-container"><span id="spotify-song" class="scroll-text"></span></div>
-            <div class="scroll-container"><span id="spotify-artist" class="scroll-text"></span></div>
+        <div id="spotify-activity">
+            <img id="spotify-album" src="" alt="Album Cover" />
+            <div class="song-info">
+                <div class="scroll-container"><span id="spotify-song" class="scroll-text"></span></div>
+                <div class="scroll-container"><span id="spotify-artist" class="scroll-text"></span></div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="main-content" style="display:none;">
-    <nav>
-        <div class="dropdown left">
-            <button class="dropbtn">My Gear</button>
-            <div class="dropdown-content">
-                <ul>
-                    <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
-                    <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
-                    <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
-                    <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
-                    <li><strong>GPU:</strong> RTX 4070 Ti Super</li>
-                    <li><strong>CPU:</strong> Intel i7-14700F</li>
-                    <li><strong>RAM:</strong> 32GB DDR4</li>
-                </ul>
+    <div id="main-content" style="display:none;">
+        <nav>
+            <div class="dropdown left">
+                <button class="dropbtn">My Gear</button>
+                <div class="dropdown-content">
+                    <ul>
+                        <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
+                        <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
+                        <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
+                        <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
+                        <li><strong>GPU:</strong> RTX 4070 Ti Super</li>
+                        <li><strong>CPU:</strong> Intel i7-14700F</li>
+                        <li><strong>RAM:</strong> 32GB DDR4</li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <div class="dropdown right">
-            <button class="dropbtn">My Socials</button>
-            <div class="dropdown-content">
-                <ul>
-                    <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
-                    <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
-                    <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
-                    <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
-                    <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
-                    <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
-                    <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank">Steam</a></li>
-                    <li><a href="https://vk.com/id891960345" target="_blank">Vk</a></li>
-                    <li><a href="https://x.com/baskalm0ment" target="_blank">X</a></li>
-                </ul>
+            <div class="dropdown right">
+                <button class="dropbtn">My Socials</button>
+                <div class="dropdown-content">
+                    <ul>
+                        <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
+                        <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
+                        <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
+                        <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
+                        <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
+                        <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
+                        <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank">Steam</a></li>
+                        <li><a href="https://vk.com/id891960345" target="_blank">Vk</a></li>
+                        <li><a href="https://x.com/baskalm0ment" target="_blank">X</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-</div>
+        </nav>
+    </div>
 
-<script>
-enterButton.onclick = () => {
-    enterPage.style.opacity = "0";
-    setTimeout(() => {
-        enterPage.style.display = "none";
-        mainContent.style.display = "flex";
-    }, 800);
-};
-</script>
+    <!-- ENTER BUTTON SCRIPT -->
+    <script>
+        const enterPage = document.getElementById("enter-page");
+        const mainContent = document.getElementById("main-content");
+        const enterButton = document.getElementById("enter-button");
 
-<script>
-function setupMarquee(el) {
-    el.classList.remove("marquee");
-    el.style.removeProperty("--tx");
-    el.style.removeProperty("--dur");
-    requestAnimationFrame(() => {
-        const w = el.scrollWidth;
-        const b = el.parentElement.clientWidth;
-        if (w > b) {
-            const move = -(w - b + 40);
-            const sec = Math.abs(move) / 45;
-            el.style.setProperty("--tx", move + "px");
-            el.style.setProperty("--dur", (sec + 4) + "s");
-            void el.offsetWidth;
-            el.classList.add("marquee");
+        enterButton.addEventListener("click", () => {
+            enterPage.style.opacity = "0";
+            setTimeout(() => {
+                enterPage.style.display = "none";
+                mainContent.style.display = "flex";
+            }, 800);
+        });
+    </script>
+
+    <!-- DISCORD + SPOTIFY SCRIPT -->
+    <script>
+        const discordStatus = document.getElementById("discord-status");
+        const discordDetails = document.getElementById("discord-details");
+        const spotifyActivity = document.getElementById("spotify-activity");
+        const spotifyAlbum = document.getElementById("spotify-album");
+        const spotifySong = document.getElementById("spotify-song");
+        const spotifyArtist = document.getElementById("spotify-artist");
+
+        function setupMarquee(el) {
+            const parent = el.parentElement;
+            el.classList.remove("marquee");
+            el.style.removeProperty("--tx");
+            el.style.removeProperty("--dur");
+
+            requestAnimationFrame(() => {
+                const textWidth = el.scrollWidth;
+                const boxWidth = parent.clientWidth;
+
+                if (textWidth > boxWidth + 2) {
+                    const movePx = -(textWidth - boxWidth + 40);
+                    const scrollSpeed = 45;
+                    const scrollDuration = Math.abs(movePx) / scrollSpeed;
+                    const pauseTime = 2;
+                    const totalDuration = scrollDuration + pauseTime * 2;
+
+                    el.style.setProperty("--tx", movePx + "px");
+                    el.style.setProperty("--dur", totalDuration + "s");
+                    void el.offsetWidth;
+                    el.classList.add("marquee");
+                } else {
+                    el.classList.remove("marquee");
+                    el.style.animation = "none";
+                }
+            });
         }
-    });
-}
 
-async function fetchDiscord() {
-    try {
-        const r = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
-        const d = await r.json();
-        if (!d.success) return;
-        const p = d.data;
-        const s = p.discord_status;
-        discordStatus.className = s;
-        discordStatus.textContent =
-            s === "online" ? "🟢 Online" :
-            s === "idle" ? "🟡 Idle" :
-            s === "dnd" ? "🔴 Do Not Disturb" : "⚫ Offline";
+        async function fetchDiscordActivity() {
+            try {
+                const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
+                const data = await res.json();
 
-        if (p.listening_to_spotify) {
-            spotifyActivity.style.display = "flex";
-            spotifyAlbum.src = p.spotify.album_art_url;
-            spotifySong.textContent = p.spotify.song;
-            spotifyArtist.textContent = p.spotify.artist;
-            discordDetails.textContent = "🎧 Listening to Spotify";
-            setupMarquee(spotifySong);
-            setupMarquee(spotifyArtist);
-        } else {
-            spotifyActivity.style.display = "none";
-            discordDetails.textContent = "No current activity";
+                if (data.success) {
+                    const presence = data.data;
+                    const status = presence.discord_status;
+
+                    discordStatus.className = "";
+
+                    if (status === "online") {
+                        discordStatus.textContent = "🟢 Online";
+                        discordStatus.classList.add("online");
+                    } else if (status === "idle") {
+                        discordStatus.textContent = "🟡 Idle";
+                        discordStatus.classList.add("idle");
+                    } else if (status === "dnd") {
+                        discordStatus.textContent = "🔴 Do Not Disturb";
+                        discordStatus.classList.add("dnd");
+                    } else {
+                        discordStatus.textContent = "⚫ Offline";
+                    }
+
+                    if (presence.listening_to_spotify) {
+                        const s = presence.spotify;
+                        spotifyActivity.style.display = "flex";
+                        spotifyAlbum.src = s.album_art_url;
+                        spotifySong.textContent = s.song;
+                        spotifyArtist.textContent = s.artist;
+                        discordDetails.textContent = "🎧 Listening to Spotify";
+
+                        setupMarquee(spotifySong);
+                        setupMarquee(spotifyArtist);
+                    } else {
+                        spotifyActivity.style.display = "none";
+                        discordDetails.textContent = "No current activity";
+                    }
+                } else {
+                    discordStatus.textContent = "Error loading activity";
+                }
+            } catch {
+                discordStatus.textContent = "Error connecting to Discord";
+            }
         }
-    } catch {}
-}
-fetchDiscord();
-setInterval(fetchDiscord, 15000);
-</script>
 
-<script>
-document.querySelectorAll(".dropdown").forEach(drop => {
-    const content = drop.querySelector(".dropdown-content");
-    drop.addEventListener("mouseleave", () => {
-        setTimeout(() => {
-            if (!content.matches(":hover") && !drop.matches(":hover")) {
+        fetchDiscordActivity();
+        setInterval(fetchDiscordActivity, 15000);
+
+        window.addEventListener("resize", () => {
+            [spotifySong, spotifyArtist].forEach((el) => {
+                if (el && el.parentElement) setupMarquee(el);
+            });
+        });
+    </script>
+
+    <!-- TITLE ANIMATION SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const text = "bASKALmOMENT";
+            let index = 0;
+            let adding = true;
+            let timer = null;
+            const stepDelay = 220;
+            const pauseDelay = 900;
+
+            function schedule(nextDelay) {
+                if (timer) clearTimeout(timer);
+                timer = setTimeout(step, nextDelay);
+            }
+
+            function step() {
+                if (adding) {
+                    index++;
+                    if (index >= text.length) {
+                        index = text.length;
+                        document.title = text.substring(0, index);
+                        adding = false;
+                        schedule(pauseDelay);
+                        return;
+                    }
+                } else {
+                    index--;
+                    if (index <= 0) {
+                        index = 0;
+                        document.title = "";
+                        adding = true;
+                        schedule(pauseDelay);
+                        return;
+                    }
+                }
+
+                document.title = text.substring(0, index);
+                schedule(stepDelay);
+            }
+
+            schedule(300);
+        });
+    </script>
+
+    <!-- DROPDOWN HOVER FIX -->
+    <script>
+        document.querySelectorAll(".dropdown").forEach(drop => {
+            const content = drop.querySelector(".dropdown-content");
+
+            drop.addEventListener("mouseenter", () => {
+                content.style.visibility = "visible";
+                content.style.opacity = "1";
+                content.style.pointerEvents = "auto";
+            });
+
+            drop.addEventListener("mouseleave", () => {
+                setTimeout(() => {
+                    if (!content.matches(":hover") && !drop.matches(":hover")) {
+                        content.style.opacity = "0";
+                        content.style.visibility = "hidden";
+                        content.style.pointerEvents = "none";
+                    }
+                }, 120);
+            });
+
+            content.addEventListener("mouseleave", () => {
                 content.style.opacity = "0";
                 content.style.visibility = "hidden";
                 content.style.pointerEvents = "none";
-            }
-        }, 120);
-    });
-});
-</script>
+            });
+        });
+    </script>
 
 </body>
 </html>
-
