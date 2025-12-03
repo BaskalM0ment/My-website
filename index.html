@@ -122,24 +122,9 @@
             margin-left: 20px;
         }
 
-        .dropdown:hover::before,
-        .dropdown:hover::after {
-            content: "";
-            position: absolute;
-            left: -40px;
-            right: -40px;
-            top: -20px;
-            bottom: -20px;
-        }
+        .dropdown-content {
+    padding: 20px; /* adds hover buffer inside window */
 
-        .dropdown-content:hover::before,
-        .dropdown-content:hover::after {
-            content: "";
-            position: absolute;
-            left: -40px;
-            right: -40px;
-            top: -20px;
-            bottom: -20px;
         }
 
         .dropdown:hover .dropdown-content,
@@ -367,3 +352,4 @@ document.querySelectorAll(".dropdown").forEach(drop => {
 
 </body>
 </html>
+
