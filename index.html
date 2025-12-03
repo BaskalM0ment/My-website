@@ -63,10 +63,6 @@
             transform: scale(1.05);
         }
 
-        /* ------------------------------ */
-        /*           NAVIGATION           */
-        /* ------------------------------ */
-
         nav {
             display: flex;
             flex-direction: row;
@@ -93,10 +89,6 @@
             font-weight: 600;
             transition: color 0.3s ease;
             text-align: center;
-        }
-
-        .dropbtn:hover {
-            color: white;
         }
 
         .dropdown-content {
@@ -128,43 +120,11 @@
             margin-left: 20px;
         }
 
-        /* INVISIBLE BUFFER FIX */
-        .dropdown:hover::before,
-        .dropdown:hover::after {
-            content: "";
-            position: absolute;
-            left: -40px;
-            right: -40px;
-            top: -20px;
-            bottom: -20px;
-        }
-
-        .dropdown-content:hover::before,
-        .dropdown-content:hover::after {
-            content: "";
-            position: absolute;
-            left: -40px;
-            right: -40px;
-            top: -20px;
-            bottom: -20px;
-        }
-
-        /* KEEP DROPDOWN OPEN WHILE USING THE WINDOW */
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
             visibility: visible;
             opacity: 1;
             pointer-events: auto;
-        }
-
-        .dropdown-content ul {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-
-        .dropdown-content ul li {
-            margin-bottom: 12px;
         }
 
         .dropdown-content a {
@@ -176,10 +136,6 @@
         .dropdown-content a:hover {
             text-decoration: underline;
         }
-
-        /* ------------------------------ */
-        /*      DISCORD / ACTIVITY UI     */
-        /* ------------------------------ */
 
         #discord-activity {
             position: fixed;
@@ -196,15 +152,6 @@
             line-height: 1.6em;
             min-width: 260px;
         }
-
-        #discord-status {
-            margin-top: 4px;
-            font-weight: 600;
-        }
-
-        #discord-status.online { color: #43b581; }
-        #discord-status.idle { color: #faa61a; }
-        #discord-status.dnd { color: #f04747; }
 
         #spotify-activity {
             margin-top: 10px;
@@ -320,7 +267,6 @@
         </nav>
     </div>
 
-    <!-- ENTER BUTTON SCRIPT -->
     <script>
         const enterPage = document.getElementById("enter-page");
         const mainContent = document.getElementById("main-content");
@@ -335,7 +281,6 @@
         });
     </script>
 
-    <!-- DISCORD + SPOTIFY SCRIPT -->
     <script>
         const discordStatus = document.getElementById("discord-status");
         const discordDetails = document.getElementById("discord-details");
@@ -388,7 +333,7 @@
                         discordStatus.classList.add("online");
                     } else if (status === "idle") {
                         discordStatus.textContent = "🟡 Idle";
-                        discordStatus.classList.add("idle");
+                        discordStatus.classclassList.add("idle");
                     } else if (status === "dnd") {
                         discordStatus.textContent = "🔴 Do Not Disturb";
                         discordStatus.classList.add("dnd");
@@ -423,13 +368,12 @@
         setInterval(fetchDiscordActivity, 15000);
 
         window.addEventListener("resize", () => {
-            [spotifySong, spotifyArtist].forEach((el) => {
+            [spotifySong, spotifyArtist].forEach(el => {
                 if (el && el.parentElement) setupMarquee(el);
             });
         });
     </script>
 
-    <!-- TITLE ANIMATION SCRIPT -->
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         const text = "bASKALmOMENT";
@@ -471,35 +415,6 @@
         }
 
         schedule(300);
-    });
-    </script>
-
-    <!-- DROPDOWN HOVER STABILITY SCRIPT -->
-    <script>
-    document.querySelectorAll(".dropdown").forEach(drop => {
-        const content = drop.querySelector(".dropdown-content");
-
-        drop.addEventListener("mouseenter", () => {
-            content.style.visibility = "visible";
-            content.style.opacity = "1";
-            content.style.pointerEvents = "auto";
-        });
-
-        drop.addEventListener("mouseleave", () => {
-            setTimeout(() => {
-                if (!content.matches(":hover") && !drop.matches(":hover")) {
-                    content.style.opacity = "0";
-                    content.style.visibility = "hidden";
-                    content.style.pointerEvents = "none";
-                }
-            }, 120);
-        });
-
-        content.addEventListener("mouseleave", () => {
-            content.style.opacity = "0";
-            content.style.visibility = "hidden";
-            content.style.pointerEvents = "none";
-        });
     });
     </script>
 
