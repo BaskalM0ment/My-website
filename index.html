@@ -6,7 +6,9 @@
     <title>My Page</title>
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -40,25 +42,15 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 20px;
             transition: opacity 1s ease;
             z-index: 1000;
-            text-align: center;
-            padding: 20px;
         }
 
-        #enter-page h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #ff5c5c;
-            max-width: 600px;
-        }
-
-        .enter-btn {
+        #enter-button {
             background: none;
             color: white;
             border: none;
-            font-size: 36px;
+            font-size: 40px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
@@ -66,17 +58,19 @@
             transition: transform 0.3s, color 0.3s;
         }
 
-        .enter-btn:hover {
+        #enter-button:hover {
             color: #ccc;
             transform: scale(1.05);
         }
 
+        /* NAVIGATION */
         nav {
             display: flex;
-            gap: 40px;
-            flex: 1;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
+            gap: 40px;
+            flex: 1;
         }
 
         .dropdown {
@@ -94,7 +88,12 @@
             padding: 15px 30px;
             width: 250px;
             font-weight: 600;
+            transition: color 0.3s ease;
             text-align: center;
+        }
+
+        .dropbtn:hover {
+            color: white;
         }
 
         .dropdown-content {
@@ -103,8 +102,12 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
+            margin: 0;
             padding: 20px;
             font-size: 18px;
+            color: white;
+            min-width: 200px;
+            max-width: 40vw;
             background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(8px);
             border-radius: 10px;
@@ -122,6 +125,7 @@
             margin-left: 20px;
         }
 
+        /* Keep dropdown open */
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
             visibility: visible;
@@ -130,12 +134,12 @@
         }
 
         .dropdown-content ul {
-            list-style: none;
             padding: 0;
             margin: 0;
+            list-style: none;
         }
 
-        .dropdown-content li {
+        .dropdown-content ul li {
             margin-bottom: 12px;
         }
 
@@ -149,31 +153,114 @@
             text-decoration: underline;
         }
 
+        /* DISCORD UI */
         #discord-activity {
             position: fixed;
             top: 20px;
             left: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
             background: rgba(0, 0, 0, 0.4);
             padding: 10px 16px;
             border-radius: 10px;
             backdrop-filter: blur(6px);
-            min-width: 260px;
             z-index: 20;
+            line-height: 1.6em;
+            min-width: 260px;
+        }
+
+        #discord-status {
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        #discord-status.online {
+            color: #43b581;
+        }
+        #discord-status.idle {
+            color: #faa61a;
+        }
+        #discord-status.dnd {
+            color: #f04747;
+        }
+
+        #spotify-activity {
+            margin-top: 10px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        #spotify-activity img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            width: 220px;
+            position: relative;
+            margin-left: 14px;
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+
+        .scroll-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            position: relative;
+            height: 20px;
+            padding-left: 2px;
+        }
+
+        .scroll-text {
+            display: inline-block;
+            white-space: nowrap;
+            position: relative;
+            will-change: transform;
+        }
+
+        .marquee {
+            animation: scroll var(--dur) linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            10% { transform: translateX(0); }
+            90% { transform: translateX(var(--tx)); }
+            100% { transform: translateX(var(--tx)); }
         }
     </style>
 </head>
 
 <body>
 
-    <video id="background-video" muted loop playsinline>
+    <video id="background-video" autoplay muted loop playsinline>
         <source src="https://github.com/BaskalM0ment/My-website/releases/download/v2/Ken.Carson.-.overseas.Official.Music.Video.-.KenCarsonVEVO.1080p.h4.mp4" type="video/mp4">
     </video>
 
     <div id="enter-page">
-        <h2>⚠️ Warning: This website may contain flashing lights and may be sensitive.</h2>
+        <button id="enter-button">ENTER SITE</button>
+    </div>
 
-        <button id="enter-video" class="enter-btn">Proceed (Video On)</button>
-        <button id="enter-no-video" class="enter-btn">Enter Without Video</button>
+    <div id="discord-activity">
+        <strong>Discord Activity</strong><br>
+        <div id="discord-status">Loading...</div>
+        <div id="discord-details"></div>
+
+        <div id="spotify-activity">
+            <img id="spotify-album" src="" alt="Album Cover" />
+            <div class="song-info">
+                <div class="scroll-container"><span id="spotify-song" class="scroll-text"></span></div>
+                <div class="scroll-container"><span id="spotify-artist" class="scroll-text"></span></div>
+            </div>
+        </div>
     </div>
 
     <div id="main-content" style="display:none;">
@@ -182,7 +269,7 @@
                 <button class="dropbtn">My Gear</button>
                 <div class="dropdown-content">
                     <ul>
-                        <li><strong>Monitor:</strong> ASUS VG27A 165hz</li>
+                        <li><strong>Monitor:</strong> ASUS VG27A 165 hz</li>
                         <li><strong>Mouse:</strong> Logitech G Pro X Superlight</li>
                         <li><strong>Keyboard:</strong> Logitech G Pro X 60 Lightspeed</li>
                         <li><strong>Headset:</strong> Logitech G Pro Wireless</li>
@@ -198,37 +285,199 @@
                 <div class="dropdown-content">
                     <ul>
                         <li><a href="https://www.instagram.com/baskalm0ment/" target="_blank">Instagram</a></li>
-                        <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
+                        <li><a href="https://discord.com/users/900420740732551188" target="_blank">Discord</a></li>
                         <li><a href="https://www.youtube.com/@Baskalm0ment" target="_blank">YouTube</a></li>
+                        <li><a href="https://github.com/Baskalm0ment" target="_blank">GitHub</a></li>
+                        <li><a href="https://www.tiktok.com/@baskalm0ment2" target="_blank">TikTok</a></li>
+                        <li><a href="https://www.twitch.tv/baskalm0ment" target="_blank">Twitch</a></li>
+                        <li><a href="https://steamcommunity.com/id/bASKALmOMENT" target="_blank">Steam</a></li>
+                        <li><a href="https://vk.com/id891960345" target="_blank">Vk</a></li>
+                        <li><a href="https://x.com/baskalm0ment" target="_blank">X</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
 
+    <!-- ENTER BUTTON SCRIPT -->
     <script>
         const enterPage = document.getElementById("enter-page");
         const mainContent = document.getElementById("main-content");
-        const video = document.getElementById("background-video");
+        const enterButton = document.getElementById("enter-button");
 
-        document.getElementById("enter-video").onclick = () => {
-            video.play();
-            enter();
-        };
-
-        document.getElementById("enter-no-video").onclick = () => {
-            video.pause();
-            video.currentTime = 0;
-            enter();
-        };
-
-        function enter() {
+        enterButton.addEventListener("click", () => {
             enterPage.style.opacity = "0";
             setTimeout(() => {
                 enterPage.style.display = "none";
                 mainContent.style.display = "flex";
             }, 800);
+        });
+    </script>
+
+    <!-- DISCORD + SPOTIFY SCRIPT -->
+    <script>
+        const discordStatus = document.getElementById("discord-status");
+        const discordDetails = document.getElementById("discord-details");
+        const spotifyActivity = document.getElementById("spotify-activity");
+        const spotifyAlbum = document.getElementById("spotify-album");
+        const spotifySong = document.getElementById("spotify-song");
+        const spotifyArtist = document.getElementById("spotify-artist");
+
+        function setupMarquee(el) {
+            const parent = el.parentElement;
+            el.classList.remove("marquee");
+            el.style.removeProperty("--tx");
+            el.style.removeProperty("--dur");
+
+            requestAnimationFrame(() => {
+                const textWidth = el.scrollWidth;
+                const boxWidth = parent.clientWidth;
+
+                if (textWidth > boxWidth + 2) {
+                    const movePx = -(textWidth - boxWidth + 40);
+                    const scrollSpeed = 45;
+                    const scrollDuration = Math.abs(movePx) / scrollSpeed;
+                    const pauseTime = 2;
+                    const totalDuration = scrollDuration + pauseTime * 2;
+
+                    el.style.setProperty("--tx", movePx + "px");
+                    el.style.setProperty("--dur", totalDuration + "s");
+                    void el.offsetWidth;
+                    el.classList.add("marquee");
+                } else {
+                    el.classList.remove("marquee");
+                    el.style.animation = "none";
+                }
+            });
         }
+
+        async function fetchDiscordActivity() {
+            try {
+                const res = await fetch("https://api.lanyard.rest/v1/users/900420740732551188");
+                const data = await res.json();
+
+                if (data.success) {
+                    const presence = data.data;
+                    const status = presence.discord_status;
+
+                    discordStatus.className = "";
+
+                    if (status === "online") {
+                        discordStatus.textContent = "🟢 Online";
+                        discordStatus.classList.add("online");
+                    } else if (status === "idle") {
+                        discordStatus.textContent = "🟡 Idle";
+                        discordStatus.classList.add("idle");
+                    } else if (status === "dnd") {
+                        discordStatus.textContent = "🔴 Do Not Disturb";
+                        discordStatus.classList.add("dnd");
+                    } else {
+                        discordStatus.textContent = "⚫ Offline";
+                    }
+
+                    if (presence.listening_to_spotify) {
+                        const s = presence.spotify;
+                        spotifyActivity.style.display = "flex";
+                        spotifyAlbum.src = s.album_art_url;
+                        spotifySong.textContent = s.song;
+                        spotifyArtist.textContent = s.artist;
+                        discordDetails.textContent = "🎧 Listening to Spotify";
+
+                        setupMarquee(spotifySong);
+                        setupMarquee(spotifyArtist);
+                    } else {
+                        spotifyActivity.style.display = "none";
+                        discordDetails.textContent = "No current activity";
+                    }
+                } else {
+                    discordStatus.textContent = "Error loading activity";
+                }
+            } catch {
+                discordStatus.textContent = "Error connecting to Discord";
+            }
+        }
+
+        fetchDiscordActivity();
+        setInterval(fetchDiscordActivity, 15000);
+
+        window.addEventListener("resize", () => {
+            [spotifySong, spotifyArtist].forEach((el) => {
+                if (el && el.parentElement) setupMarquee(el);
+            });
+        });
+    </script>
+
+    <!-- TITLE ANIMATION SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const text = "bASKALmOMENT";
+            let index = 0;
+            let adding = true;
+            let timer = null;
+            const stepDelay = 220;
+            const pauseDelay = 900;
+
+            function schedule(nextDelay) {
+                if (timer) clearTimeout(timer);
+                timer = setTimeout(step, nextDelay);
+            }
+
+            function step() {
+                if (adding) {
+                    index++;
+                    if (index >= text.length) {
+                        index = text.length;
+                        document.title = text.substring(0, index);
+                        adding = false;
+                        schedule(pauseDelay);
+                        return;
+                    }
+                } else {
+                    index--;
+                    if (index <= 0) {
+                        index = 0;
+                        document.title = "";
+                        adding = true;
+                        schedule(pauseDelay);
+                        return;
+                    }
+                }
+
+                document.title = text.substring(0, index);
+                schedule(stepDelay);
+            }
+
+            schedule(300);
+        });
+    </script>
+
+    <!-- DROPDOWN HOVER FIX -->
+    <script>
+        document.querySelectorAll(".dropdown").forEach(drop => {
+            const content = drop.querySelector(".dropdown-content");
+
+            drop.addEventListener("mouseenter", () => {
+                content.style.visibility = "visible";
+                content.style.opacity = "1";
+                content.style.pointerEvents = "auto";
+            });
+
+            drop.addEventListener("mouseleave", () => {
+                setTimeout(() => {
+                    if (!content.matches(":hover") && !drop.matches(":hover")) {
+                        content.style.opacity = "0";
+                        content.style.visibility = "hidden";
+                        content.style.pointerEvents = "none";
+                    }
+                }, 120);
+            });
+
+            content.addEventListener("mouseleave", () => {
+                content.style.opacity = "0";
+                content.style.visibility = "hidden";
+                content.style.pointerEvents = "none";
+            });
+        });
     </script>
 
 </body>
