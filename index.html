@@ -245,9 +245,7 @@
         <source src="https://github.com/BaskalM0ment/My-website/releases/download/v4.0/carti.shit.mp4">
     </video>
 
-    <div id="enter-page">
-        <button id="enter-button">ENTER SITE</button>
-    </div>
+   <div id="enter-page"></div>
 
     <div id="discord-activity">
         <strong>Discord Activity</strong><br>
@@ -303,15 +301,9 @@
     <script>
         const enterPage = document.getElementById("enter-page");
         const mainContent = document.getElementById("main-content");
-        const enterButton = document.getElementById("enter-button");
 
-        enterButton.addEventListener("click", () => {
-            enterPage.style.opacity = "0";
-            setTimeout(() => {
-                enterPage.style.display = "none";
-                mainContent.style.display = "flex";
-            }, 800);
-        });
+        enterPage.style.display = "none";
+        mainContent.style.display = "flex";
     </script>
 
     <!-- DISCORD + SPOTIFY SCRIPT -->
